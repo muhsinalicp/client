@@ -1,7 +1,9 @@
 import { CircleUserRoundIcon, LucideShoppingCart } from 'lucide-react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
+    const nav = useNavigate()
     return (
         <div className='p-5  h-full flex justify-between items-center'>
             <div className='hover:cursor-pointer'>
@@ -12,10 +14,10 @@ function Navbar() {
 
             <div>
                 <ul className='flex gap-4  h-full'>
-                    <li className='hover:cursor-pointer active:text-sky-600'>
+                    <li onClick={() => nav('/signup')} className='hover:cursor-pointer active:text-sky-600'>
                         Home
                     </li>
-                    <li className='hover:cursor-pointer active:text-sky-600'>
+                    <li  className='hover:cursor-pointer active:text-sky-600'>
                         About
                     </li>
                     <li className='hover:cursor-pointer active:text-sky-600'>
