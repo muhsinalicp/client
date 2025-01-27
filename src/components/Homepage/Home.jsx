@@ -5,6 +5,7 @@ import Promotion from './Promotion'
 import Arrivalpage from './Arrivalpage'
 import Topsellpage from './Topsellpage'
 import BrowseCat from './BrowseCat'
+import Footer from './Footer'
 
 function Home() {
     return (
@@ -37,10 +38,14 @@ function Home() {
             </div>
 
         {/* browse categories page  */}
-
         <div className='h-fit w-screen py-8 '>
             <BrowseCat/>
         </div>
+
+        {/* footer  */}
+        <footer className='w-full lg:h-[50vh] h-fit'>
+            <Footer/>
+        </footer>
 
 
         </div>

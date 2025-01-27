@@ -53,10 +53,10 @@ function BrowseCat() {
 
             {categories.map((item) => 
             (
-                <div key={item.id} className='flex  bg-white items-center rounded-2xl col-  '>
+                <div key={item.id} className='flex h-[180px]  bg-white items-center rounded-2xl col-  '>
                     <div className='px-8 text-2xl'>{item.type}</div>
-                    <div className='w-full h-full  flex flex-col justify-center items-end    overflow-hidden '>
-                        <img className='size-65  object-right'  src={item.img} alt="" />
+                    <div className='w-full h-full  flex flex-col justify-center items-end ml-30   overflow-hidden '>
+                        <img className='h-96 '  src={item.img} alt={item.type} />
                     </div>
                 </div>
                     
