@@ -30,7 +30,7 @@ function Footer() {
 
       </div>
 
-      <div className='bg-gray-300 h-fit lg:h-full absolute w-full top-52 lg:top-15  pt-34 p-12 z-0 '>
+      <div className='bg-gray-300 h-fit lg:h-full absolute w-full top-56 lg:top-15  pt-34 p-12 z-0 '>
         <div className='w-full h-full grid grid-cols-2  lg:grid-cols-5 gap-6'>
 
           <div className='w-full h-full  max-lg:col-span-2'>
