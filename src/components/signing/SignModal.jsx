@@ -25,7 +25,7 @@ function SignModal({ setOpen }) {
                 setOpen(false);
             }
         } catch (err) {
-            const errorMessage = err.response?.data?.status || 'Login failed. Please try again.';
+            const errorMessage = err.response?.data?.status || 'Login failed. Please try again after sometimes';
             setError(errorMessage);
             console.error('Login error:', err);
         } finally {
