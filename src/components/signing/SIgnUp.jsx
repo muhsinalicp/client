@@ -37,7 +37,7 @@ function SIgnUp() {
     try 
     {
 
-      const response = await axios.post(`${BACKEND_URL}/register`, formData, {
+      const response = await axios.post(`${BACKEND_URL}register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
