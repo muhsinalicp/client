@@ -5,6 +5,8 @@ function SignModal({ setOpen }) {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    
+    console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
