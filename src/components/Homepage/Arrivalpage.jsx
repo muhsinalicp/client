@@ -1,26 +1,33 @@
+import axios from 'axios';
 import { Star } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Arrivalpage() {
 
-    const data = [
+    const [data, setdata] = useState([]);
+
+    const backendurl = import.meta.env.VITE_BACKEND_URL
+
+    useEffect(() => 
+    {
+
+      const fetchdata =async()=>
+      {
+        try
         {
-            id: 1,
-            name: "Levis",
-        },
+          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}home`);
+          setdata(res.data.data);
+          console.log(res.data.data);
+          
+        }
+        catch(err)
         {
-            id: 2,
-            name: "Kappa",
-        },
-        {
-            id: 3,
-            name: "H&M",
-        },
-        {
-            id: 4,
-            name: "Pantaloons",
-        },
-    ]
+          console.log(err);
+        }}
+
+        fetchdata();
+
+    }, [])
 
     return (
         <div className='h-full w-full'>
@@ -31,16 +38,16 @@ function Arrivalpage() {
 
                 {data.map((item) => 
                     (
-                        <div key={item.id} className='flex flex-col  items-center  '>
+                        <div key={item.id} className='flex flex-col  items-center hover:transform hover:scale-102 duration-200 hover:shadow-sm rounded-2xl p-2 cursor-pointer  '>
                             <div className='w-full  flex flex-col justify-center items-center rounded-3xl'>
 
-                              <div className='bg-[#F2F0F1] w-full h-40 lg:h-80 rounded-2xl'>
-                                {/* image */}
+                              <div className='bg-[#F2F0F1] w-full h-40 lg:h-80 rounded-2xl flex items-center justify-center'>
+                                <img className='w-full h-3/4 object-contain rounded-2xl' src={item.image} alt="" />
                               </div>
 
                               <div className='flex flex-col justify-start w-full py-3 px-2'>
                                 <span className='font-semibold text-xl lg:text-2xl'>
-                                    product name
+                                    {item.productname}
                                 </span>
 
                                 <span className='flex gap-1 items-center'>
@@ -52,7 +59,7 @@ function Arrivalpage() {
                                 </span>
 
                                 <span className='font-semibold text-lg lg:text-xl'>
-                                    Rs. 1000
+                                    Rs. {item.productprice}
                                 </span>
 
                               </div>

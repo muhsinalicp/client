@@ -9,7 +9,6 @@ function Sellerhome() {
   const location = useLocation();
 
   const handlelogout = () => {
-
     localStorage.removeItem('token')
     nav('/');
   }

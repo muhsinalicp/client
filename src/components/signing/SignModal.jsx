@@ -16,7 +16,7 @@ function SignModal({ setOpen }) {
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}login_post`,
-                formData
+                formData, { withCredentials: true }
             );
 
             if (response.data.status === 'success' && response.data.userType === 'user') {

@@ -1,25 +1,31 @@
 import { Star } from 'lucide-react'
-import React from 'react'
+import React , { useEffect, useState } from 'react'
+import axios from 'axios';
 
 function Topsellpage() {
-    const data = [
+    const [data, setdata] = useState([]);
+
+
+    useEffect(() => 
+    {
+
+      const fetchdata =async()=>
+      {
+        try
         {
-            id: 1,
-            name: "Levis",
-        },
+          const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}home`);
+          setdata(res.data.data);
+          console.log(res.data.data);
+          
+        }
+        catch(err)
         {
-            id: 2,
-            name: "Kappa",
-        },
-        {
-            id: 3,
-            name: "H&M",
-        },
-        {
-            id: 4,
-            name: "Pantaloons",
-        },
-    ]
+          console.log(err);
+        }}
+
+        fetchdata();
+
+    }, [])
   return (
     <div className='h-full w-full'>
     <div className=' w-full flex justify-center items-center text-4xl pt-5 head-font'>
@@ -27,36 +33,36 @@ function Topsellpage() {
     </div>
     <div className='grid grid-cols-2 lg:grid-cols-4 gap-5 py-5 px-5 lg:px-20 '>
 
-        {data.map((item) => 
-            (
-                <div key={item.id} className='flex flex-col  items-center  '>
-                    <div className='w-full  flex flex-col justify-center items-center rounded-3xl'>
+                {data.map((item) => 
+                    (
+                        <div key={item.id} className='flex flex-col  items-center hover:transform hover:scale-102 duration-200 hover:shadow-sm rounded-2xl p-2 cursor-pointer  '>
+                            <div className='w-full  flex flex-col justify-center items-center rounded-3xl'>
 
-                      <div className='bg-[#F2F0F1] w-full h-40 lg:h-80 rounded-2xl'>
-                        {/* image */}
-                      </div>
+                              <div className='bg-[#F2F0F1] w-full h-40 lg:h-80 rounded-2xl flex items-center justify-center'>
+                                <img className='w-full h-3/4 object-contain rounded-2xl' src={item.image} alt="" />
+                              </div>
 
-                      <div className='flex flex-col justify-start w-full py-3 px-2'>
-                        <span className='font-semibold text-xl lg:text-2xl'>
-                            product name
-                        </span>
+                              <div className='flex flex-col justify-start w-full py-3 px-2'>
+                                <span className='font-semibold text-xl lg:text-2xl'>
+                                    {item.productname}
+                                </span>
 
-                        <span className='flex gap-1 items-center'>
-                            <Star className='text-yellow-400' fill='gold' size={20}/>
-                            <Star className='text-yellow-400' fill='gold' size={20}/>
-                            <Star className='text-yellow-400' fill='gold' size={20}/>
-                            <Star className='text-yellow-400' fill='gold' size={20}/>
-                            <span className='text-gray-500'>4/5</span>
-                        </span>
+                                <span className='flex gap-1 items-center'>
+                                    <Star className='text-yellow-400' fill='gold' size={20}/>
+                                    <Star className='text-yellow-400' fill='gold' size={20}/>
+                                    <Star className='text-yellow-400' fill='gold' size={20}/>
+                                    <Star className='text-yellow-400' fill='gold' size={20}/>
+                                    <span className='text-gray-500'>4/5</span>
+                                </span>
 
-                        <span className='font-semibold text-lg lg:text-xl'>
-                            Rs. 1000
-                        </span>
+                                <span className='font-semibold text-lg lg:text-xl'>
+                                    Rs. {item.productprice}
+                                </span>
 
-                      </div>
-                    </div>
-                </div>
-            ))}
+                              </div>
+                            </div>
+                        </div>
+                    ))}
 
     </div>
 

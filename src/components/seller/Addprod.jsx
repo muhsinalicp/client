@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { Loader2 } from 'lucide-react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Addprod() {
     const [data, setdata] = useState({
@@ -13,6 +15,7 @@ function Addprod() {
 
     const [loading, setloading] = useState(false);
     const [error, seterror] = useState('');
+    const nav = useNavigate();
 
     const handleInputChange = (e) => {
         setdata({ ...data, [e.target.name]: e.target.value });
@@ -31,6 +34,9 @@ function Addprod() {
     const handlesubmit = async (e) => {
         e.preventDefault();
 
+        setloading(true);
+        seterror('');
+
         const formData = new FormData();
         formData.append('productname', data.name);
         formData.append('category', data.category);
@@ -45,16 +51,18 @@ function Addprod() {
         try {
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}seller/submitproduct`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: true
             });
-
-            console.log(res.data);
 
 
             if (res.data.status === 'done') {
+                setloading(false);
                 alert(res.data.message);
+                nav('/sellerhome');
+
             }
         } catch (err) {
-            console.log(err);
+            seterror(err.response.data.message);
         }
     };
 
@@ -108,8 +116,9 @@ function Addprod() {
                             </div>
 
                             <div className='flex mt-5'>
-                                <button type='submit' className='bg-white flex-1 p-2 rounded-xl font-bold'>{loading ? 'Loading...' : 'Submit Product'}</button>
+                                <button type='submit' disabled={loading} className={`bg-white flex-1 p-2 rounded-xl font-bold ${loading ? 'opacity-50 cursor-progress' : ''}`}>{loading ? `Loading...` : 'Submit Product'}</button>
                             </div>
+                            {error && <p className='text-red-500'>{error}</p>}
                         </form>
                     </div>
                 </div>
