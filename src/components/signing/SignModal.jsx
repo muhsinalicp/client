@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React, { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SignModal({ setOpen }) {
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
-    console.log("Backend URL:", import.meta.env.VITE_BACKEND_URL);
+    const nav = useNavigate()
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
@@ -24,6 +24,11 @@ function SignModal({ setOpen }) {
                 localStorage.setItem('token', response.data.token);
                 window.location.reload();
 
+                setOpen(false);
+            }
+           else if (response.data.status === 'success' && response.data.userType === 'seller') {
+                localStorage.setItem('token', response.data.token);
+                nav('/sellerhome')
                 setOpen(false);
             }
         } catch (err) {

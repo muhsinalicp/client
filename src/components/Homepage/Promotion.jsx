@@ -51,9 +51,9 @@ function Promotion() {
         <div className='h-full w-full flex justify-center lg:gap-20 items-center flex-wrap'>
             {brands.map((item) => 
             (
-                <>
+                <div key={item.id}>
                 <img key={item.id} className=' h-12 drop-shadow-xs' src={item.img} alt={item.name} />
-                </>
+                </div>
             ))}
         </div>
     </div>

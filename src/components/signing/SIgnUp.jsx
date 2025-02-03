@@ -65,7 +65,7 @@ function SIgnUp() {
 
   return (
     <div className='w-screen h-screen flex justify-center items-center bg-gray-200'>
-      <div className='w-[95%] lg:w-[40%] h-[90%] bg-black relative flex flex-col justify-between items-center'>
+      <div className='w-[95%] lg:w-[40%] h-[90%] bg-black rounded-xl relative flex flex-col justify-between items-center'>
         <h1 className='text-3xl font-bold text-white p-4 text-center'>SignUp</h1>
         <button onClick={() => nav(-1)} className='text-white text-2xl absolute top-5 left-6 font-bold hover:transform hover:scale-110 duration-200'>
           <ArrowLeft />

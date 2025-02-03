@@ -43,7 +43,7 @@ function Addprod() {
         });
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}submitproduct`, formData, {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}seller/submitproduct`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 

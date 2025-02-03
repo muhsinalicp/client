@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import Hero from './Hero'
 import Promotion from './Promotion'
@@ -8,6 +8,11 @@ import BrowseCat from './BrowseCat'
 import Footer from './Footer'
 
 function Home() {
+
+    const [lid,setlid]= useState()
+
+
+
     return (
 
         <div>

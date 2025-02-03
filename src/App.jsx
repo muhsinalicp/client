@@ -1,22 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Home from './components/Homepage/Home'
 import SIgnUp from './components/signing/SIgnUp'
 import Signin from './Signin'
-import Addprod from './components/Homepage/Addprod'
+import Sellerhome from './components/seller/Sellerhome'
+import Sellerreg from './components/seller/Sellerreg'
+import Addprod from './components/seller/Addprod'
+import Dashboard from './components/seller/sidecomponents/Dashboard'
+import Products from './components/seller/sidecomponents/Products'
+import Orders from './components/seller/sidecomponents/Orders'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signup" element={<SIgnUp />} />
-      <Route path="/signin" element={<Signin/>} />
-      <Route path="/addproduct" element={<Addprod/>}/>
+      <Route path="/signin" element={<Signin />} />
+      <Route path="/sellerhome/products/addproduct" element={<Addprod />} />
+
+      <Route path="/sellerhome" element={<Sellerhome />}>
+        <Route index element={<Dashboard />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="products" element={<Products />} />
+        <Route path="orders" element={<Orders />} />
+        {/* Add more seller-related routes here */}
+      </Route>
+
+      <Route path="/sellerregister" element={<Sellerreg />} />
     </Routes>
   )
 }

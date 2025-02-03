@@ -43,21 +43,22 @@ function Footer() {
           <div className='w-full h-full '>
             <h1>COMPANY</h1>
             <ul className='text-neutral-600 font-light mt-5 flex flex-col gap-2 text-sm'>
-              <li>About</li>
-              <li>Features</li>
-              <li>Works</li>
-              <li>Career</li>
-              <li className='cursor-pointer hover:underline w-fit' onClick={()=>nav('/addproduct')} >Add Products</li>
+              <li className='cursor-pointer hover:underline w-fit'>About</li>
+              <li className='cursor-pointer hover:underline w-fit'>Features</li>
+              <li className='cursor-pointer hover:underline w-fit'>Works</li>
+              <li className='cursor-pointer hover:underline w-fit'>Career</li>
+              {/* <li className='cursor-pointer hover:underline w-fit' onClick={()=>nav('/addproduct')} >Add Products</li> */}
+              <li className='cursor-pointer hover:underline w-fit' onClick={()=>nav('/sellerregister')} >Become a Seller</li>
             </ul>
           </div>
 
           <div className='w-full h-full '>
           <h1>HELP</h1>
           <ul className='text-neutral-600 font-light mt-5 flex flex-col gap-2 text-sm'>
-              <li>Customer Support</li>
-              <li>Delivery Details</li>
-              <li>Terms & Conditions</li>
-              <li>Privacy & Policy</li>
+              <li className='cursor-pointer hover:underline w-fit'>Customer Support</li>
+              <li className='cursor-pointer hover:underline w-fit'>Delivery Details</li>
+              <li className='cursor-pointer hover:underline w-fit'>Terms & Conditions</li>
+              <li className='cursor-pointer hover:underline w-fit'>Privacy & Policy</li>
             </ul>
 
           </div>
@@ -66,10 +67,10 @@ function Footer() {
           <h1>FAQ</h1>
 
           <ul className='text-neutral-600 font-light mt-5 flex flex-col gap-2 text-sm'>
-              <li>Account</li>
-              <li>Manage Delivery</li>
-              <li>Orders</li>
-              <li>Payments</li>
+              <li className='cursor-pointer hover:underline w-fit'>Account</li>
+              <li className='cursor-pointer hover:underline w-fit'>Manage Delivery</li>
+              <li className='cursor-pointer hover:underline w-fit'>Orders</li>
+              <li className='cursor-pointer hover:underline w-fit'>Payments</li>
             </ul>
 
 
@@ -79,10 +80,10 @@ function Footer() {
           <h1>RESOURCES</h1>
 
           <ul className='text-neutral-600 font-light mt-5 flex flex-col gap-2 text-sm'>
-              <li>Free E-Books</li>
-              <li>Development Tutorial</li>
-              <li>How-to-Blog</li>
-              <li>Youtube Playlist</li>
+              <li className='cursor-pointer hover:underline w-fit'>Free E-Books</li>
+              <li className='cursor-pointer hover:underline w-fit'>Development Tutorial</li>
+              <li className='cursor-pointer hover:underline w-fit'>How-to-Blog</li>
+              <li className='cursor-pointer hover:underline w-fit'>Youtube Playlist</li>
             </ul>
 
           </div>
