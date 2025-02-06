@@ -38,8 +38,8 @@ function Topsellpage() {
                         <div key={item.id} className='flex flex-col  items-center hover:transform hover:scale-102 duration-200 hover:shadow-sm rounded-2xl p-2 cursor-pointer  '>
                             <div className='w-full  flex flex-col justify-center items-center rounded-3xl'>
 
-                              <div className='bg-[#F2F0F1] w-full h-40 lg:h-80 rounded-2xl flex items-center justify-center'>
-                                <img className='w-full h-3/4 object-contain rounded-2xl' src={item.image} alt="" />
+                              <div className='bg-[#F2F0F1] w-full h-40 lg:h-80 rounded-2xl   flex items-center justify-center'>
+                                <img className='w-full h-3/4 object-contain drop-shadow-2xl rounded-2xl' src={item.image} alt="" />
                               </div>
 
                               <div className='flex flex-col justify-start w-full py-3 px-2'>

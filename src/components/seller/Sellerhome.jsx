@@ -1,16 +1,23 @@
 import React from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { LayoutDashboardIcon, LogOut, PackageOpenIcon, PiggyBankIcon } from 'lucide-react'
-import { i } from 'motion/react-client'
+import axios from 'axios';
 
 function Sellerhome() {
 
   const nav = useNavigate()
   const location = useLocation();
 
-  const handlelogout = () => {
-    localStorage.removeItem('token')
+  const handlelogout = async() => {
+    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}logout`)
+    if (res.data.status === 'success') {
     nav('/');
+    }
+    else if(res.data.status === 'error')
+    {
+      alert(res.data.message)
+    }
+    
   }
 
   const items = [
