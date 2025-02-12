@@ -14,9 +14,7 @@ function Topsellpage() {
         try
         {
           const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}home`);
-          setdata(res.data.data);
-          console.log(res.data.data);
-          
+          setdata(res.data.data);       
         }
         catch(err)
         {

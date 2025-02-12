@@ -32,7 +32,7 @@ function Arrivalpage() {
     return (
         <div className='h-full w-full'>
             <div className=' w-full flex justify-center items-center text-4xl pt-5 head-font'>
-                NEW ARRIVALSkkkkkk
+                NEW ARRIVALS
             </div>
             <div className='grid grid-cols-2 lg:grid-cols-4 gap-5 py-5 px-5 lg:px-20 '>
 
