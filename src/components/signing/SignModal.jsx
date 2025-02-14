@@ -7,6 +7,7 @@ function SignModal({ setOpen }) {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const nav = useNavigate()
+    
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
@@ -19,14 +20,17 @@ function SignModal({ setOpen }) {
                 formData, { withCredentials: true }
             );
 
-            if (response.data.status === 'success' && response.data.userType === 'user') {
+            console.log(response.data);
+            
+
+            if (response.data.status === 'login successful' && response.data.userType === 'user') {
                 console.log('Login successful as user');
-                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('token', response.data.status);
                 window.location.reload();
 
                 setOpen(false);
             }
-           else if (response.data.status === 'success' && response.data.userType === 'seller') {
+           else if (response.data.status === 'login successful' && response.data.userType === 'seller') {
                 localStorage.setItem('token', response.data.token);
                 nav('/sellerhome')
                 setOpen(false);

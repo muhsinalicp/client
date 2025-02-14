@@ -9,14 +9,16 @@ import Addprod from './components/seller/Addprod'
 import Dashboard from './components/seller/sidecomponents/Dashboard'
 import Products from './components/seller/sidecomponents/Products'
 import Orders from './components/seller/sidecomponents/Orders'
-
+import ProductDetail from './components/product/ProductDetail'
 function App() {
 
   return (
     <Routes>
+      <Route path='*' element={<h1>Page not Found</h1>} />
       <Route path="/" element={<Home />} />
       <Route path="/signup" element={<SIgnUp />} />
       <Route path="/signin" element={<Signin />} />
+      <Route path='/product/:id' element={<ProductDetail />} />
       <Route path="/sellerhome/products/addproduct" element={<Addprod />} />
 
       <Route path="/sellerhome" element={<Sellerhome />}>
@@ -24,7 +26,6 @@ function App() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="products" element={<Products />} />
         <Route path="orders" element={<Orders />} />
-        {/* Add more seller-related routes here */}
       </Route>
 
       <Route path="/sellerregister" element={<Sellerreg />} />

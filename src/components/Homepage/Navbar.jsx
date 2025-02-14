@@ -29,7 +29,7 @@ function Navbar() {
 
             <div className='hidden lg:flex '>
                 <ul className='flex gap-4  h-full tracking-wider'>
-                    <li onClick={() => nav('/signup')} className='hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600'>
+                    <li className='hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600'>
                         Home
                     </li>
                     <li className=' hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600'>
