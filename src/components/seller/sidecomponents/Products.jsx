@@ -1,8 +1,31 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function Products() {
-    const nav = useNavigate()
+    const nav = useNavigate();
+
+
+    useEffect(()=>
+      {
+        const fetchdata =async()=>
+          {
+            try
+            {
+              const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}seller/products`,{withCredentials:true});
+              console.log(res);
+            }
+            catch(err)
+            {
+
+            }
+          }
+
+          fetchdata();
+      }
+    ,[])
+
+
   return (
     <div className='w-full h-full flex justify-between p-2'>
         <div className=''>

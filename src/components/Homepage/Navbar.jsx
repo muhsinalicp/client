@@ -1,21 +1,19 @@
 import { CircleUserRoundIcon, LucideShoppingCart, Menu } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SignModal from '../signing/SignModal'
 import Sidebar from './Sidebar'
+import { AuthContext } from '../../context/context'
+
+
 
 function Navbar() {
-    const [authorized, setAuthorized] = useState(false)
+
+    const auth = useContext(AuthContext)
+    
     const [open, setopen] = useState(false)
     const [sidebar, setsidebar] = useState(false)
     const nav = useNavigate()
-    const lid = localStorage.getItem('token');
-
-    useEffect(() => {
-        if (lid) {
-            setAuthorized(true);
-        }
-    }, [lid]);
 
     return (
         <div className='p-5  h-full flex justify-between items-center'>
@@ -41,7 +39,7 @@ function Navbar() {
                 </ul>
             </div>
 
-            {authorized ?
+            {auth.isAuth ?
                 <div>
                     <div className='lg:hidden'>
                         <Menu onClick={() => setsidebar(!sidebar)} size={30} />

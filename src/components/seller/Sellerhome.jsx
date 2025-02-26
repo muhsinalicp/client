@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { LayoutDashboardIcon, LogOut, PackageOpenIcon, PiggyBankIcon } from 'lucide-react'
 import axios from 'axios';
+import {AuthContext} from '../../context/context'
+import { MdProductionQuantityLimits } from 'react-icons/md';
 
 function Sellerhome() {
+
+  const auth = useContext(AuthContext)
+  
 
   const nav = useNavigate()
   const location = useLocation();
@@ -11,6 +16,7 @@ function Sellerhome() {
   const handlelogout = async() => {
     const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}logout`)
     if (res.data.status === 'success') {
+    auth.setIsAuth(false);
     nav('/');
     }
     else if(res.data.status === 'error')
@@ -31,7 +37,7 @@ function Sellerhome() {
       id: 2,
       name: "Products",
       link: "products", // Relative path
-      icon: <PackageOpenIcon />
+      icon: <MdProductionQuantityLimits size={30} />
     },
     {
       id: 3,
@@ -60,7 +66,7 @@ function Sellerhome() {
                   key={item.id}
                   className={`w-full flex gap-2 items-center p-3 text-gray-500 hover:bg-purple-950 font-medium hover:text-white cursor-pointer rounded-lg 
                   ${location.pathname === (item.link === "dashboard" ? "/sellerhome" : `/sellerhome/${item.link}`) ? "bg-purple-950 text-white" : ""}`}
-                  onClick={() => nav(item.link === "dashboard" ? "/sellerhome" : `/sellerhome/${item.link}`)}  // ✅ FIXED!
+                  onClick={() => nav(item.link === "dashboard" ? "/sellerhome" : `/sellerhome/${item.link}`)}
                 >
                   {item.icon}
                   <p>{item.name}</p>

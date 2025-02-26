@@ -1,19 +1,26 @@
 import { LogOutIcon, X } from 'lucide-react'
-import React from 'react'
-import { motion } from "motion/react"
+import React, { useContext } from 'react'
+import { AnimatePresence, motion } from "motion/react"
+import { AuthContext } from '../../context/context'
 
 function Sidebar({ sidebar , setsidebar }) {
 
-    const handlelogout = () => {
-        localStorage.removeItem('token')
-        window.location.reload()
+    const auth = useContext(AuthContext)
+
+    const handlelogout = () => 
+    {
+        auth.setIsAuth(false);
+        setsidebar(false);
     }
 
 
     return (
-        <motion.div className='h-[100vh] md:w-1/4 w-[90%] bg-black  top-0 right-0 shadow-2xl fixed z-58 p-2 '
+        <AnimatePresence>
+        {sidebar &&(
+            <motion.div   key="sidebar" className='h-[100vh] md:w-1/4 w-[90%] bg-black/40 backdrop-blur-sm top-0 right-0 shadow-2xl fixed z-58 p-2 '
             initial={{ x: "+100%" }} 
-            animate={{ x: open ? 0 : "+100%" }}
+            animate={{ x:0 }}
+            exit={{ x: "+100%" }}
             transition={{ duration: .3 }}>
             <div className=' h-full w-full relative py-10'>
                 
@@ -23,7 +30,7 @@ function Sidebar({ sidebar , setsidebar }) {
                 <div className='h-full w-full flex flex-col justify-end  text-white '>
 
                     <div className='outline-2 active:bg-neutral-950 hover:bg-neutral-900 rounded-lg px-4 py-2  cursor-pointer '
-                    onClick={() => {handlelogout()}}>
+                    onClick={handlelogout}>
 
                         <div className='flex gap-2 items-center   hover:transform hover:scale-102 duration-200'>
                             <LogOutIcon size={25} color='white' className=''  />
@@ -38,6 +45,10 @@ function Sidebar({ sidebar , setsidebar }) {
 
             </div>
         </motion.div>
+        )
+            
+        }
+        </AnimatePresence>
     )
 }
 

@@ -1,13 +1,19 @@
 import axios from 'axios';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/context';
 
 function SignModal({ setOpen }) {
+
+    const auth = useContext(AuthContext)
+    
+
+
     const [formData, setFormData] = useState({ username: '', password: '' });
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const nav = useNavigate()
-    
+
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
@@ -21,17 +27,17 @@ function SignModal({ setOpen }) {
             );
 
             console.log(response.data);
-            
+
 
             if (response.data.status === 'login successful' && response.data.userType === 'user') {
                 console.log('Login successful as user');
-                localStorage.setItem('token', response.data.status);
-                window.location.reload();
-
+                // localStorage.setItem('token', response.data.status);
+                auth.setIsAuth(true);
                 setOpen(false);
             }
-           else if (response.data.status === 'login successful' && response.data.userType === 'seller') {
-                localStorage.setItem('token', response.data.token);
+            else if (response.data.status === 'login successful' && response.data.userType === 'seller') {
+                // localStorage.setItem('token', response.data.token);
+                auth.setIsAuth(true);
                 nav('/sellerhome')
                 setOpen(false);
             }
@@ -71,7 +77,7 @@ function SignModal({ setOpen }) {
                 </button>
 
                 <h1 className='text-2xl text-white pt-8 font-bold text-center'>Sign In</h1>
-                
+
                 <form onSubmit={handleSubmit} className='mt-4 space-y-4'>
 
                     <div>

@@ -10,9 +10,12 @@ import Dashboard from './components/seller/sidecomponents/Dashboard'
 import Products from './components/seller/sidecomponents/Products'
 import Orders from './components/seller/sidecomponents/Orders'
 import ProductDetail from './components/product/ProductDetail'
+import { AuthProvider } from './context/context'
 function App() {
 
   return (
+
+    <AuthProvider>
     <Routes>
       <Route path='*' element={<h1>Page not Found</h1>} />
       <Route path="/" element={<Home />} />
@@ -30,6 +33,7 @@ function App() {
 
       <Route path="/sellerregister" element={<Sellerreg />} />
     </Routes>
+    </AuthProvider>
   )
 }
 

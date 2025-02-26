@@ -3,13 +3,15 @@ import Navbar from '../Homepage/Navbar'
 import { Minus, Plus, Star } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import {motion} from 'motion/react';
 
 function ProductDetail() {
 
+    const {id} = useParams();
     const [product, setproduct] = useState();
     const [count, setcount] = useState(1);
-    const {id} = useParams();
     const [selectedImage, setselectedImage] = useState();
+    const [showBreadcrumb, setshowBreadcrumb] = useState(false);
 
 
     useEffect(()=>
@@ -49,6 +51,26 @@ function ProductDetail() {
         }
     }
 
+    function handleimage(image)
+    {
+        setselectedImage(image);
+    }
+
+     function handleaddtocart(id, count)
+    {
+        const data = {
+            productid: product._id,
+            quantity: count,
+        }
+
+
+        setshowBreadcrumb(true);
+        setTimeout(() => {
+            setshowBreadcrumb(false);
+        }, 3000);
+
+    }
+
 
 
     return (
@@ -56,6 +78,18 @@ function ProductDetail() {
             <div>
                 <Navbar />
             </div>
+
+            {showBreadcrumb && (
+                <div className='fixed bottom-4 right-4 z-50'>
+                    <motion.div 
+                    initial={{ x: 100 }}
+                    animate={{ x: 0 }}
+                    transition={{ duration: .3 }}
+                    className=' text-black px-4 py-2 rounded-lg flex items-center gap-2 border-1 border-black'>
+                    <span> ({count}) {product?.productname} added to Cart</span>
+                    </motion.div>
+                </div>
+            )}
 
             <div className='flex flex-col md:flex-row w-full h-full  justify-between p-2 md:p-8  '>
 
@@ -66,7 +100,8 @@ function ProductDetail() {
                     <div className="h-full flex md:flex-col overflow-x-auto scrollbar-hidden gap-3">
                         {product?.image.map((item) => 
                         (
-                            <div className="flex-shrink-0 w-[80px] h-[80px] md:w-36 md:h-36 bg-[#F2F0F1] rounded-2xl flex items-center justify-center">
+                            <div className={`flex-shrink-0 w-[80px] h-[80px] md:w-36 md:h-36 bg-[#F2F0F1] rounded-2xl flex items-center justify-center
+                            cursor-pointer ${selectedImage === item ? 'border-1 border-black' : ''}`}>
                                 <img src={item} className='w-1/2 h-1/2' alt="" />
                             </div>
                         ))}
@@ -111,7 +146,9 @@ function ProductDetail() {
                                 <h1 className='font-bold'>{count}</h1>
                                 <button className='text-2xl' onClick={() => handlecount('plus')} ><Plus/></button>
                             </span>
-                            <span className='h-full py-3 rounded-2xl bg-black text-white flex-1 flex items-center justify-center cursor-pointer px-12'>Add To Cart</span>
+                            <span
+                             onClick={() => handleaddtocart(product._id, count)}
+                             className='h-full py-3 rounded-2xl bg-black text-white flex-1 flex items-center justify-center cursor-pointer px-12'>Add To Cart</span>
                         </div>
 
                     </div>
