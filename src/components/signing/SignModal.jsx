@@ -28,12 +28,10 @@ function SignModal({ setOpen }) {
 
 
             if (response.data.status === 'login successful' && response.data.userType === 'user') {
-                // localStorage.setItem('token', response.data.status);
                 auth.setIsAuth(true);
                 setOpen(false);
             }
             else if (response.data.status === 'login successful' && response.data.userType === 'seller') {
-                // localStorage.setItem('token', response.data.token);
                 auth.setIsAuth(true);
                 nav('/sellerhome')
                 setOpen(false);

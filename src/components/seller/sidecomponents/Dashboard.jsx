@@ -14,8 +14,6 @@ function Dashboard() {
       {
         const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}seller/dashboard`,{withCredentials:true});
         setdata(res.data);
-        console.log('heklo');
-        console.log(res);
       }
       catch(err)
       {
