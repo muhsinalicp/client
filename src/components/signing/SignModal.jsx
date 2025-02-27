@@ -26,11 +26,8 @@ function SignModal({ setOpen }) {
                 formData, { withCredentials: true }
             );
 
-            console.log(response.data);
-
 
             if (response.data.status === 'login successful' && response.data.userType === 'user') {
-                console.log('Login successful as user');
                 // localStorage.setItem('token', response.data.status);
                 auth.setIsAuth(true);
                 setOpen(false);
