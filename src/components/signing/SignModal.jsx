@@ -3,6 +3,7 @@ import React, { useState, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/context';
 
+
 function SignModal({ setOpen }) {
 
     const auth = useContext(AuthContext)
@@ -25,6 +26,8 @@ function SignModal({ setOpen }) {
                 `${import.meta.env.VITE_BACKEND_URL}login_post`,
                 formData, { withCredentials: true }
             );
+
+            
 
 
             if (response.data.status === 'login successful' && response.data.userType === 'user') {

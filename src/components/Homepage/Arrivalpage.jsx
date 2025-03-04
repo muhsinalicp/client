@@ -37,7 +37,7 @@ function Arrivalpage() {
 
                 {data.map((item) => 
                     (
-                        <div key={item.id}
+                        <div key={item._id}
                          className='flex flex-col  items-center hover:transform hover:scale-102 duration-200 hover:shadow-sm rounded-2xl p-2 cursor-pointer  '
                          onClick={()=> nav(`/product/${item._id}`)}>
                             <div className='w-full  flex flex-col justify-center items-center rounded-3xl'>

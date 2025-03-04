@@ -22,7 +22,6 @@ function ProductDetail() {
                 try
                 {
                     const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}product/${id}`);
-                    console.log(res.data.data);
                     setproduct(res.data.data);
                     setselectedImage(res.data.data.image[0]);
                 }
@@ -98,9 +97,9 @@ function ProductDetail() {
 
                     {/* select image section  */}
                     <div className="h-full flex md:flex-col overflow-x-auto scrollbar-hidden gap-3">
-                        {product?.image.map((item) => 
+                        {product?.image.map((item , index) => 
                         (
-                            <div className={`flex-shrink-0 w-[80px] h-[80px] md:w-36 md:h-36 bg-[#F2F0F1] rounded-2xl flex items-center justify-center
+                            <div key={index} className={`flex-shrink-0 w-[80px] h-[80px] md:w-36 md:h-36 bg-[#F2F0F1] rounded-2xl flex items-center justify-center
                             cursor-pointer ${selectedImage === item ? 'border-1 border-black' : ''}`}>
                                 <img src={item} className='w-1/2 h-1/2' alt="" />
                             </div>
