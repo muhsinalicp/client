@@ -12,7 +12,7 @@ function Dashboard() {
     {
       try
       {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}seller/dashboard`,{withCredentials:true});
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}seller/dashboard/?${Date.now()}`,{withCredentials:true});
         setdata(res.data);
       }
       catch(err)
