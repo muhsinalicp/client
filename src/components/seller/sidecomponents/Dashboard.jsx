@@ -1,5 +1,5 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 function Dashboard() {
 
@@ -12,12 +12,12 @@ function Dashboard() {
     {
       try
       {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}seller/dashboard/?${Date.now()}`,{withCredentials:true});
-        setdata(res.data);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}seller/dashboard`,{withCredentials:true});
+        setdata(res.data.data);
       }
       catch(err)
       {
-        console.log(err);
+        console.log("error in dashboard component is: ",err.response.data.message);
       }
 
     }
@@ -30,7 +30,7 @@ function Dashboard() {
   return (
     <div className='w-full h-full '>
         <div className='flex p-2' >
-            <h1 className='text-2xl font-bold'>Hello, Dashboard👋</h1>
+            <h1 className='text-2xl font-bold'>Hello, {data?.username || "User"}👋</h1>
         </div>
     </div>
   )
