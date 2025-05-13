@@ -1,58 +1,43 @@
-import axios from "axios";
-import { Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import api from "../../../api";
+import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api";
-import loading from "../../assets/loading.gif";
+function AlsoLike({ categories }) {
+  const [data, setData] = useState([]);
 
-function Arrivalpage() {
-  const [data, setdata] = useState([
-    {
-      _id: "1",
-      productname: "Product 1",
-      productprice: 100,
-      images: [loading],
-    },
-    {
-      _id: "2",
-      productname: "Product 2",
-      productprice: 200,
-      images: [loading],
-    },
-    {
-      _id: "3",
-      productname: "Product 3",
-      productprice: 300,
-      images: [loading],
-    },
-    {
-      _id: "4",
-      productname: "Product 4",
-      productprice: 400,
-      images: [loading],
-    },
-  ]);
+  const [loading, setLoading] = useState(false);
 
   const nav = useNavigate();
 
   useEffect(() => {
-    const fetchdata = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        const res = await api.get("/newarrivals");
-        setdata(res.data.data);
-      } catch (err) {
-        console.log(err);
+        const res = await api.get(`/products/${categories}`);
+        setData(res.data.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
+    fetchData();
+  }, [categories]);
 
-    fetchdata();
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (data.length === 0) {
+    return <div>No data found</div>;
+  }
 
   return (
-    <div className="h-full w-full">
-      <div className=" w-full flex justify-center items-center text-4xl pt-5 head-font">
-        NEW ARRIVALS
+    <div className="w-full">
+      <div className=" w-full flex justify-center items-center  text-2xl md:text-4xl pt-5 head-font">
+        YOU MIGHT ALSO LIKE
       </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 py-5 px-5 lg:px-12 ">
         {data.map((item) => (
           <div
@@ -84,7 +69,7 @@ function Arrivalpage() {
                     />
                   ))}
                   <span className="text-gray-500">
-                    {item?.avgRating?.toFixed(1)}/5
+                    {item.avgRating.toFixed(1)}/5
                   </span>
                 </span>
 
@@ -96,14 +81,8 @@ function Arrivalpage() {
           </div>
         ))}
       </div>
-
-      <div className="w-full flex justify-center items-center py-5">
-        <button className=" outline-1 outline-gray-400 px-14 py-2 rounded-4xl hover:bg-gray-200 hover:cursor-pointer">
-          View All
-        </button>
-      </div>
     </div>
   );
 }
 
-export default Arrivalpage;
+export default AlsoLike;
