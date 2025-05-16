@@ -83,9 +83,7 @@ function Arrivalpage() {
                       size={20}
                     />
                   ))}
-                  <span className="text-gray-500">
-                    {item?.avgRating?.toFixed(1)}/5
-                  </span>
+                  <span className="text-gray-500">{item?.avgRating}/5</span>
                 </span>
 
                 <span className="font-semibold text-lg lg:text-xl">

@@ -28,9 +28,9 @@ function ProductSeller() {
     const fetchdata = async () => {
       try {
         const res = await api.get(`seller/products`);
-        console.log(res.data.data);
         setproducts(res.data.data);
       } catch (err) {
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -166,7 +166,7 @@ function ProductSeller() {
             {currentProducts.map((product) => (
               <tr
                 className="[&>td]:py-4 [&>td]:px-2 border-t border-gray-300 text-gray-500"
-                key={product.id}
+                key={product._id}
               >
                 <td>
                   <div className="flex items-center gap-2 text-sm text-gray-500">

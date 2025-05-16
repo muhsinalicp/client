@@ -1,35 +1,13 @@
-import axios from "axios";
-import { Loader2, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../../api";
-import toast, { Toaster } from "react-hot-toast";
+import { useParams } from "react-router-dom";
+import api from "../../../api";
+import toast from "react-hot-toast";
 import { BiImageAdd } from "react-icons/bi";
-import compressImage from "../../utils/compressImage";
 
-function Addprod() {
-  const [imagePreview, setImagePreview] = useState(null);
-  const [selectedPreviews, setSelectedPreviews] = useState([null, null, null]);
-
-  const [data, setdata] = useState({
-    name: "",
-    category: "",
-    price: "",
-    description: "",
-    mainimage: "",
-    colors: [],
-    sizes: [],
-    brand: "",
-    stock: "",
-    features: "",
-    styleTips: "",
-    additionalImages: [],
-  });
-  const [loading, setloading] = useState(false);
-  const [compressingMain, setCompressingMain] = useState(false);
-  const [compressing, setCompressing] = useState([false, false, false]);
-  const nav = useNavigate();
-  const [hovercolor, sethovercolor] = useState(null);
+import compressImage from "../../../utils/compressImage";
+import { Loader2, X } from "lucide-react";
+function EditProd() {
+  const { id } = useParams();
 
   const catogories = [
     "Tshirts",
@@ -70,6 +48,84 @@ function Addprod() {
     "Gold",
   ];
 
+  const [imagePreview, setImagePreview] = useState(null);
+  const [selectedPreviews, setSelectedPreviews] = useState([null, null, null]);
+  const [compressingMain, setCompressingMain] = useState(false);
+  const [compressing, setCompressing] = useState([false, false, false]);
+  const [loading, setLoading] = useState(false);
+  const [hovercolor, sethovercolor] = useState(null);
+  const [prodData, setProdData] = useState({
+    name: "",
+    category: "",
+    price: "",
+    description: "",
+    mainimage: "",
+    colors: [],
+    sizes: [],
+    brand: "",
+    stock: "",
+    features: "",
+    styleTips: "",
+    additionalImages: [],
+  });
+
+  // fetch product data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.get(`/seller/getproduct/${id}`);
+        setProdData(res.data.product);
+        setImagePreview(res.data.product.images[0]);
+        setSelectedPreviews(res.data.product.images.slice(1, 4));
+      } catch (error) {
+        toast.error("Something went Wrong");
+      }
+    };
+    fetchData();
+  }, []);
+
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", prodData.name);
+    formData.append("description", prodData.description);
+    formData.append("features", prodData.features);
+    formData.append("styleTips", prodData.styleTips);
+    formData.append("price", prodData.price);
+    formData.append("category", prodData.category);
+    formData.append("brand", prodData.brand);
+    formData.append("stock", prodData.stock);
+    formData.append("sizes", prodData.sizes);
+    formData.append("colors", prodData.colors);
+    formData.append("mainimage", prodData.mainimage);
+    formData.append("additionalImages", prodData.additionalImages);
+
+    const res = await api.patch(`/seller/editproduct/${id}`, formData);
+    console.log(res);
+  };
+
+  // handle main image change
+  const handleMainImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setCompressingMain(true);
+      const compressedFile = await compressImage(file);
+      setCompressingMain(false);
+      setProdData((prev) => ({
+        ...prev,
+        mainimage: compressedFile,
+      }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(compressedFile);
+    }
+  };
+
+  // handle additional image change
   const handleAdditionalImageChange = async (e, index) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -92,7 +148,9 @@ function Addprod() {
     });
 
     // Update additionalImages safely
-    setdata((prev) => {
+    setProdData((prev) => {
+      console.log(prev);
+
       const updatedImages = [...prev.additionalImages];
       updatedImages[index] = compressedFile;
       return { ...prev, additionalImages: updatedImages };
@@ -110,6 +168,7 @@ function Addprod() {
     reader.readAsDataURL(compressedFile);
   };
 
+  // handle remove additional image
   const handleRemoveAdditionalImage = (index) => {
     const updatedImages = [...data.additionalImages];
     const updatedPreviews = [...selectedPreviews];
@@ -117,142 +176,46 @@ function Addprod() {
     updatedImages[index] = null; // or undefined
     updatedPreviews[index] = null;
 
-    setdata({ ...data, additionalImages: updatedImages });
+    setProdData({ ...prodData, additionalImages: updatedImages });
     setSelectedPreviews(updatedPreviews);
   };
 
-  const handleMainImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setCompressingMain(true);
-      const compressedFile = await compressImage(file);
-      setCompressingMain(false);
-      setdata((prev) => ({
-        ...prev,
-        mainimage: compressedFile,
-      }));
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(compressedFile);
-    }
-  };
-
+  // handle input change
   const handleInputChange = (e) => {
-    setdata({ ...data, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setProdData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // const handleCheckboxChange = (e) => {
-  //   const { value, checked } = e.target;
-  //   if (checked) {
-  //     setdata((prev) => ({
-  //       ...prev,
-  //       sizes: [...prev.sizes, value],
-  //     }));
-  //   } else {
-  //     setdata((prev) => ({
-  //       ...prev,
-  //       sizes: prev.sizes.filter((size) => size !== value),
-  //     }));
-  //   }
-  // };
-
+  // handle checkbox change
   const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-
-    setdata((prev) => ({
+    const { name, checked } = e.target;
+    setProdData((prev) => ({
       ...prev,
       sizes: checked
-        ? [...prev.sizes, value] // add value if checked
-        : prev.sizes.filter((size) => size !== value), // remove if unchecked
+        ? [...prev.sizes, name]
+        : prev.sizes.filter((size) => size !== name),
     }));
   };
-
   const handleColorCheckboxChange = (e) => {
-    const { value, checked } = e.target;
-
-    setdata((prev) => ({
+    const { name, checked } = e.target;
+    setProdData((prev) => ({
       ...prev,
       colors: checked
-        ? [...prev.colors, value] // add value if checked
-        : prev.colors.filter((color) => color !== value), // remove if unchecked
+        ? [...prev.colors, name]
+        : prev.colors.filter((color) => color !== name),
     }));
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("submitting");
-    setloading(true);
-
-    if (!data.mainimage) {
-      toast.error("Please upload a main image");
-      setloading(false);
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("productname", data.name);
-    formData.append("category", data.category);
-    formData.append("brand", data.brand);
-    formData.append("colors", data.colors);
-    formData.append("sizes", data.sizes);
-    formData.append("price", data.price);
-    formData.append("stock", data.stock);
-    formData.append("styleTips", data.styleTips);
-    formData.append("features", data.features);
-    formData.append("description", data.description);
-    formData.append("mainimage", data.mainimage);
-
-    data.additionalImages.forEach((file) => {
-      formData.append(`additionalImages`, file);
-    });
-    try {
-      const res = api.post(`seller/submitproduct`, formData);
-
-      toast.promise(res, {
-        loading: "Submitting Product...",
-        success: (res) => {
-          return res.data.message || "Product uploaded successfully!";
-        },
-        error: (err) => {
-          return err?.response?.data?.message || "Upload failed.";
-        },
-      });
-
-      const postPromise = await res;
-
-      if (postPromise.status === 200) {
-        toast.success("Product uploaded successfully!");
-        toast.success("Navigating to product page...");
-        setTimeout(() => {
-          nav("/sellerhome/products");
-        }, 2000);
-      }
-    } catch (err) {
-    } finally {
-      setloading(false);
-    }
-  };
-
   return (
     <section className="w-full h-full px-4">
-      <div>
-        <Toaster position="bottom-right" />
-      </div>
-
       <form
-        action=""
         className="w-full h-full grid grid-cols-2 gap-2"
         onSubmit={handleSubmit}
       >
-        {/* product information */}
-        <section className="bg-white px-4 py-2 h-fit outline-1 outline-gray-300 rounded-xl">
-          {/* product information heading  */}
+        <section className="bg-white px-4 py-2  outline-1 outline-gray-300 rounded-xl">
           <div className="py-2">
             <h1 className="font-bold text-2xl">Product Information:</h1>
             <p className="text-xs tracking-widest text-gray-600">
-              Enter the product information below
+              Edit the product information below
             </p>
           </div>
 
@@ -265,7 +228,7 @@ function Addprod() {
               type="text"
               name="name"
               id="name"
-              value={data.name}
+              value={prodData.name}
               onChange={handleInputChange}
               className="p-2 outline rounded-lg"
               placeholder="Enter the Product Name"
@@ -282,7 +245,7 @@ function Addprod() {
             <textarea
               type="text"
               name="description"
-              value={data.description}
+              value={prodData.description}
               onChange={handleInputChange}
               id="description"
               className="p-2 outline rounded-lg h-24"
@@ -301,7 +264,7 @@ function Addprod() {
               <textarea
                 type="text"
                 name="features"
-                value={data.features}
+                value={prodData.features}
                 onChange={handleInputChange}
                 id="features"
                 className="p-2 outline rounded-lg h-24"
@@ -318,7 +281,7 @@ function Addprod() {
               <textarea
                 type="text"
                 name="styleTips"
-                value={data.styleTips}
+                value={prodData.styleTips}
                 onChange={handleInputChange}
                 id="styleTips"
                 className="p-2 outline rounded-lg h-24"
@@ -339,7 +302,7 @@ function Addprod() {
                 type="text"
                 name="price"
                 id="price"
-                value={data.price}
+                value={prodData.price}
                 onChange={handleInputChange}
                 className="p-2 outline rounded-lg "
                 placeholder="Enter the Product Price"
@@ -356,7 +319,7 @@ function Addprod() {
                 name="category"
                 id="category"
                 className="p-2 outline rounded-lg "
-                value={data.category}
+                value={prodData.category}
                 onChange={handleInputChange}
               >
                 <option disabled value={""}>
@@ -381,7 +344,7 @@ function Addprod() {
               <div className="flex gap-2 round-checkbox">
                 <input
                   type="checkbox"
-                  checked={data.sizes.includes("S")}
+                  checked={prodData.sizes.includes("S")}
                   onChange={handleCheckboxChange}
                   id="S"
                   name="S"
@@ -393,7 +356,7 @@ function Addprod() {
               <div className="flex gap-2 round-checkbox">
                 <input
                   type="checkbox"
-                  checked={data.sizes.includes("M")}
+                  checked={prodData.sizes.includes("M")}
                   onChange={handleCheckboxChange}
                   id="M"
                   name="M"
@@ -405,7 +368,7 @@ function Addprod() {
               <div className="flex gap-2 round-checkbox">
                 <input
                   type="checkbox"
-                  checked={data.sizes.includes("L")}
+                  checked={prodData.sizes.includes("L")}
                   onChange={handleCheckboxChange}
                   id="L"
                   name="L"
@@ -417,7 +380,7 @@ function Addprod() {
               <div className="flex gap-2 round-checkbox">
                 <input
                   type="checkbox"
-                  checked={data.sizes.includes("XL")}
+                  checked={prodData.sizes.includes("XL")}
                   onChange={handleCheckboxChange}
                   id="XL"
                   name="XL"
@@ -427,7 +390,6 @@ function Addprod() {
               </div>
             </div>
           </div>
-
           {/* colors */}
           <div className="flex flex-col gap-2 mb-2">
             <label className="font-medium" htmlFor="colors">
@@ -441,7 +403,7 @@ function Addprod() {
                     type="checkbox"
                     name={color}
                     value={color}
-                    checked={data.colors.includes(color)}
+                    checked={prodData.colors.includes(color)}
                     onChange={handleColorCheckboxChange}
                     className="hidden peer"
                   />
@@ -473,7 +435,7 @@ function Addprod() {
                 type="text"
                 name="brand"
                 id="brand"
-                value={data.brand}
+                value={prodData.brand}
                 onChange={handleInputChange}
                 className="p-2 outline rounded-lg "
                 placeholder="Enter the Product Brand"
@@ -490,7 +452,7 @@ function Addprod() {
                 type="text"
                 name="stock"
                 id="stock"
-                value={data.stock}
+                value={prodData.stock}
                 onChange={handleInputChange}
                 className="p-2 outline w-full rounded-lg "
                 placeholder="Enter the Available Product Stock"
@@ -500,7 +462,6 @@ function Addprod() {
           </div>
         </section>
 
-        {/* images */}
         <section>
           <section className="bg-white p-4 h-fit outline-1 outline-gray-300 rounded-xl">
             {/* product images heading  */}
@@ -550,7 +511,7 @@ function Addprod() {
                         onClick={(e) => {
                           e.stopPropagation();
                           setImagePreview("");
-                          setdata({ ...data, mainimage: "" });
+                          setProdData({ ...prodData, mainimage: "" });
                         }}
                         className="absolute top-1 right-1 hover:bg-gray-200 rounded-full p-1 cursor-pointer z-10"
                       >
@@ -659,4 +620,4 @@ function Addprod() {
   );
 }
 
-export default Addprod;
+export default EditProd;

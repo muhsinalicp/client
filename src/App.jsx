@@ -13,6 +13,7 @@ import ProductDetail from "./components/product/ProductDetail";
 import { AuthProvider } from "./context/context";
 import Shop from "./components/Homepage/shop/Shop";
 import ProductSeller from "./components/seller/sidecomponents/ProductSeller";
+import EditProd from "./components/seller/sidecomponents/EditProd";
 function App() {
   return (
     <AuthProvider>
@@ -22,7 +23,6 @@ function App() {
         <Route path="/signup" element={<SIgnUp />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        {/* <Route path="/sellerhome/products/addproduct" element={<Addprod />} /> */}
         <Route path="/shop" element={<Shop />} />
 
         <Route path="/sellerhome" element={<Sellerhome />}>
@@ -31,7 +31,7 @@ function App() {
           <Route path="products" element={<ProductSeller />} />
           <Route path="orders" element={<Orders />} />
           <Route path="products/addproduct" element={<Addprod />} />
-          <Route path="products/editproduct/:id" element={<>hello editing</>} />
+          <Route path="products/editproduct/:id" element={<EditProd />} />
         </Route>
 
         <Route path="/sellerregister" element={<Sellerreg />} />

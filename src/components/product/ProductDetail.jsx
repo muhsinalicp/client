@@ -132,9 +132,7 @@ function ProductDetail() {
                   className="text-yellow-400"
                 />
               ))}
-              <span className="text-gray-500">
-                {product?.avgRating.toFixed(1)}/5
-              </span>
+              <span className="text-gray-500">{product?.avgRating}/5</span>
             </span>
 
             {/* description  */}
