@@ -15,7 +15,7 @@ function Navbar() {
   const { pathname } = useLocation();
 
   return (
-    <div className="p-5  h-full flex justify-between items-center">
+    <div className="p-5  h-[8vh] flex justify-between items-center">
       <div className="flex items-center gap-4">
         {pathname !== "/" && (
           <div className="hover:cursor-pointer">
@@ -28,7 +28,7 @@ function Navbar() {
         )}
         <h1
           onClick={() => nav("/")}
-          className="text-3xl head-font hover:cursor-pointer "
+          className="text-xl head-font hover:cursor-pointer text-nowrap "
         >
           Cart-Hive
         </h1>
@@ -64,16 +64,16 @@ function Navbar() {
           </div>
         </div>
       ) : (
-        <div className=" gap-1 flex ">
+        <div className=" gap-1 flex h-8 md:h-fit justify-end w-full md:w-fit ">
           <button
             onClick={() => nav("/signup")}
-            className="bg-black text-white px-3 py-2 lg:px-8 lg:py-2 rounded-4xl w-fit text-sm hover:cursor-pointer hover:transform hover:scale-102"
+            className="bg-black text-white px-3 w-fit  md:text-sm lg:px-8 lg:py-2 rounded-4xl text-xs hover:cursor-pointer hover:transform hover:scale-102"
           >
             Sign Up
           </button>
           <button
             onClick={() => setopen(!open)}
-            className="bg-neutral-600 text-white px-3 py-2 lg:px-8 lg:py-2 rounded-4xl hover:cursor-pointer hover:transform hover:scale-102"
+            className="bg-neutral-600 text-white px-3 text:sm text-xs py-2 lg:px-8 lg:py-2 rounded-4xl hover:cursor-pointer hover:transform hover:scale-102"
           >
             Sign In
           </button>
