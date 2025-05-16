@@ -14,11 +14,12 @@ import { AuthProvider } from "./context/context";
 import Shop from "./components/Homepage/shop/Shop";
 import ProductSeller from "./components/seller/sidecomponents/ProductSeller";
 import EditProd from "./components/seller/sidecomponents/EditProd";
+import NotFound from "./components/NotFound";
 function App() {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="*" element={<h1>Page not Found</h1>} />
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SIgnUp />} />
         <Route path="/signin" element={<Signin />} />

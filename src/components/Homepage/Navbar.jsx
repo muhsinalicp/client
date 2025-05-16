@@ -1,6 +1,6 @@
 import { CircleUserRoundIcon, LucideShoppingCart, Menu } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SignModal from "../signing/SignModal";
 import Sidebar from "./Sidebar";
 import { AuthContext } from "../../context/context";
@@ -35,15 +35,24 @@ function Navbar() {
       </div>
       <div className="hidden lg:flex ">
         <ul className="flex gap-4  h-full tracking-wider">
-          <li className="hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600">
+          <Link
+            to="/"
+            className="hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600"
+          >
             Home
-          </li>
-          <li className=" hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600">
+          </Link>
+          <Link
+            to="/about"
+            className="hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600"
+          >
             About
-          </li>
-          <li className="hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600">
+          </Link>
+          <Link
+            to="/contact"
+            className="hover:cursor-pointer hover:transform duration-200  hover:scale-110 active:text-sky-600"
+          >
             Contact
-          </li>
+          </Link>
         </ul>
       </div>
       {auth.isAuth ? (
