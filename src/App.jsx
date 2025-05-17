@@ -15,6 +15,7 @@ import Shop from "./components/Homepage/shop/Shop";
 import ProductSeller from "./components/seller/sidecomponents/ProductSeller";
 import EditProd from "./components/seller/sidecomponents/EditProd";
 import NotFound from "./components/NotFound";
+import AboutPage from "./components/Homepage/AboutPage";
 function App() {
   return (
     <AuthProvider>
@@ -25,6 +26,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/about" element={<AboutPage />} />
 
         <Route path="/sellerhome" element={<Sellerhome />}>
           <Route index element={<Dashboard />} />
