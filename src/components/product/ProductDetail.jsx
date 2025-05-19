@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Homepage/Navbar";
 import { Loader2, Minus, Plus, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
@@ -6,8 +6,11 @@ import api from "../../api";
 import toast, { Toaster } from "react-hot-toast";
 import ProductDescriptions from "./components/ProductDescriptions";
 import AlsoLike from "./components/AlsoLike";
+import { AuthContext } from "../../context/context";
 
 function ProductDetail() {
+  const auth = useContext(AuthContext);
+
   const { id } = useParams();
   const [product, setproduct] = useState();
   const [count, setcount] = useState(1);
@@ -48,8 +51,22 @@ function ProductDetail() {
   }
 
   async function handleaddtocart() {
-    if (!selectedColor || !selectedSize) {
-      toast.error("you need to select color and size", {
+    let err;
+
+    if (!selectedSize) {
+      err = "you need to select size";
+    }
+
+    if (!selectedColor) {
+      err = "you need to select color";
+    }
+
+    if (!auth.isAuth) {
+      err = "you need to login to add to cart";
+    }
+
+    if (err) {
+      toast.error(err, {
         position: "bottom-right",
         icon: "⚠️",
         style: {
