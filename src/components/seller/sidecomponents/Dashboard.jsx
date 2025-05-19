@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import api from "../../../api";
 
 function Dashboard() {
@@ -8,13 +7,18 @@ function Dashboard() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await api.get(`seller/dashboard`);
+        const res = await api.get(`/api/seller/dashboard`);
         setdata(res.data.data);
       } catch (err) {
-        console.log(
-          "error in dashboard component is: ",
-          err.response.data.message
-        );
+        if (
+          err.response.data.message ===
+            "Access denied. No token provided. Please log in." ||
+          err.response.data.message ===
+            "Invalid or expired token. Please log in again." ||
+          err.response.data.message === "Unauthorized"
+        ) {
+          toast.error("Unauthorized");
+        }
       }
     };
 

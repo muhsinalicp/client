@@ -1,24 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import {
-  LayoutDashboardIcon,
-  LogOut,
-  PackageOpenIcon,
-  PiggyBankIcon,
-} from "lucide-react";
-import axios from "axios";
 import { AuthContext } from "../../context/context";
-import {
-  MdProductionQuantityLimits,
-  MdShoppingBag,
-  MdSpaceDashboard,
-} from "react-icons/md";
+import { MdShoppingBag, MdSpaceDashboard } from "react-icons/md";
 import { FaMailchimp } from "react-icons/fa";
-import { useState } from "react";
-import { i } from "motion/react-client";
-import { LuLogOut } from "react-icons/lu";
 import { AiOutlineLogout } from "react-icons/ai";
 import { GrTransaction } from "react-icons/gr";
+import api from "../../api";
+import toast, { Toaster } from "react-hot-toast";
 
 function Sellerhome() {
   const auth = useContext(AuthContext);
@@ -28,16 +16,32 @@ function Sellerhome() {
 
   const handlelogout = async () => {
     sessionStorage.removeItem("token");
-
-    const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}logout`);
-    if (res.data.status === "success") {
-      sessionStorage.removeItem("token");
-      auth.setIsAuth(false);
-      nav("/");
-    } else if (res.data.status === "error") {
-      alert(res.data.message);
-    }
+    auth.setIsAuth(false);
+    nav("/");
   };
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const res = await api.get(`/api/seller/dashboard`);
+      } catch (err) {
+        if (
+          err.response.data.message ===
+            "Access denied. No token provided. Please log in." ||
+          err.response.data.message ===
+            "Invalid or expired token. Please log in again." ||
+          err.response.data.message === "Not authorized"
+        ) {
+          toast.error("Unauthorized");
+          setTimeout(() => {
+            handlelogout();
+          }, 1000);
+        }
+      }
+    };
+
+    fetchdata();
+  }, []);
 
   const items = [
     {
@@ -65,6 +69,7 @@ function Sellerhome() {
 
   return (
     <div className="w-screen h-screen  flex flex-col  ">
+      <Toaster position="bottom-right" />
       <div className="w-full h-full flex   ">
         {/* sidebar */}
         <div className="w-[20%] h-full bg-[#141416] outline-1 outline-gray-100 flex flex-col justify-between  gap-2 ">

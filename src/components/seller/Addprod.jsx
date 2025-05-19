@@ -23,7 +23,9 @@ function Addprod() {
     stock: "",
     features: "",
     styleTips: "",
-    additionalImages: [],
+    additionalImages1: "",
+    additionalImages2: "",
+    additionalImages3: "",
   });
   const [loading, setloading] = useState(false);
   const [compressingMain, setCompressingMain] = useState(false);
@@ -32,29 +34,40 @@ function Addprod() {
   const [hovercolor, sethovercolor] = useState(null);
 
   const catogories = [
-    "Tshirts",
+    // Tops
+    "T-Shirts",
     "Shirts",
+    "Tops",
+    "Tunics",
+
+    // Outerwear
     "Jackets",
     "Sweaters",
     "Hoodies",
-    "Pants",
-    "Casuals",
-    "Formals",
-    "Party Wears",
-    "Sports Wear",
-    "Daily Wear",
+
+    // Bottoms
     "Jeans",
+    "Pants",
     "Trousers",
     "Shorts",
-    "Jumpsuits",
-    "Dresses",
     "Skirts",
-    "Tops",
-    "Tunics",
+
+    // Full Body
+    "Dresses",
+    "Jumpsuits",
+
+    // Style Categories
+    "Casual Wear",
+    "Formal Wear",
+    "Party Wear",
+    "Sports Wear",
+
+    // Other
     "Others",
   ];
 
   const colors = [
+    // Basic Colors
     "Red",
     "Blue",
     "Black",
@@ -64,10 +77,124 @@ function Addprod() {
     "Orange",
     "Pink",
     "Purple",
-    "Brown",
-    "Gray",
+    "Aqua",
+    "Cyan",
+    "Fuchsia",
+    "Indigo",
+    "Khaki",
+    "Lavender",
+    "Lime",
+    "Magenta",
+    "Maroon",
+    "Olive",
+    "Orchid",
+    "Periwinkle",
+    "Plum",
+    "Salmon",
+    "Teal",
+    "Turquoise",
+    "Violet",
+
+    // Light Colors
+    "AliceBlue",
+    "AntiqueWhite",
+    "Azure",
+    "Bisque",
+    "BlanchedAlmond",
+    "Cornsilk",
+    "FloralWhite",
+    "GhostWhite",
+    "Honeydew",
+    "Ivory",
+    "LavenderBlush",
+    "LemonChiffon",
+    "Linen",
+    "MintCream",
+    "MistyRose",
+    "Moccasin",
+    "NavajoWhite",
+    "OldLace",
+    "PapayaWhip",
+    "PeachPuff",
+    "Seashell",
+    "Snow",
+    "Thistle",
+    "Wheat",
+    "WhiteSmoke",
+
+    // Dark Colors
+    "DarkBlue",
+    "DarkCyan",
+    "DarkGoldenRod",
+    "DarkGray",
+    "DarkGreen",
+    "DarkKhaki",
+    "DarkMagenta",
+    "DarkOliveGreen",
+    "DarkOrange",
+    "DarkOrchid",
+    "DarkRed",
+    "DarkSalmon",
+    "DarkSeaGreen",
+    "DarkSlateBlue",
+    "DarkSlateGray",
+    "DarkTurquoise",
+    "DarkViolet",
+    "DeepPink",
+    "DeepSkyBlue",
+    "DimGray",
+    "DodgerBlue",
+    "FireBrick",
+    "ForestGreen",
+    "Gainsboro",
+    "GoldenRod",
+    "IndianRed",
+    "MediumAquaMarine",
+    "MediumBlue",
+    "MediumOrchid",
+    "MediumPurple",
+    "MediumSpringGreen",
+    "MediumVioletRed",
+    "MidnightBlue",
+    "OliveDrab",
+    "OrangeRed",
+    "PaleGreen",
+    "PaleTurquoise",
+    "PaleVioletRed",
+    "Peru",
+    "PowderBlue",
+    "RosyBrown",
+    "RoyalBlue",
+    "SaddleBrown",
+    "SandyBrown",
+    "SeaGreen",
+    "Sienna",
+    "SkyBlue",
+    "SlateBlue",
+    "SlateGray",
+    "SpringGreen",
+    "SteelBlue",
+    "Tan",
+    "YellowGreen",
+
+    // Additional Colors
     "Beige",
+    "Brown",
+    "Coral",
     "Gold",
+    "Gray",
+    "LightBlue",
+    "LightCoral",
+    "LightGreen",
+    "LightPink",
+    "LightSalmon",
+    "LightSeaGreen",
+    "LightSkyBlue",
+    "LightSlateGray",
+    "LightSteelBlue",
+    "LightYellow",
+    "Navy",
+    "Silver",
   ];
 
   const handleAdditionalImageChange = async (e, index) => {
@@ -91,34 +218,41 @@ function Addprod() {
       return updated;
     });
 
-    // Update additionalImages safely
-    setdata((prev) => {
-      const updatedImages = [...prev.additionalImages];
-      updatedImages[index] = compressedFile;
-      return { ...prev, additionalImages: updatedImages };
-    });
+    // Set image key dynamically
+    const imageKey = `additionalImages${index + 1}`;
 
-    // Update preview safely
+    // Update state with the correct key
+    setdata((prev) => ({
+      ...prev,
+      [imageKey]: compressedFile,
+    }));
+
+    // Update preview
     const reader = new FileReader();
     reader.onloadend = () => {
       setSelectedPreviews((prev) => {
-        const updatedPreviews = [...prev];
-        updatedPreviews[index] = reader.result;
-        return updatedPreviews;
+        const updated = [...prev];
+        updated[index] = reader.result;
+        return updated;
       });
     };
     reader.readAsDataURL(compressedFile);
   };
 
   const handleRemoveAdditionalImage = (index) => {
-    const updatedImages = [...data.additionalImages];
-    const updatedPreviews = [...selectedPreviews];
+    const imageKey = `additionalImages${index + 1}`;
 
-    updatedImages[index] = null; // or undefined
-    updatedPreviews[index] = null;
+    // Clear the image and preview for that slot
+    setdata((prev) => ({
+      ...prev,
+      [imageKey]: "",
+    }));
 
-    setdata({ ...data, additionalImages: updatedImages });
-    setSelectedPreviews(updatedPreviews);
+    setSelectedPreviews((prev) => {
+      const updated = [...prev];
+      updated[index] = null;
+      return updated;
+    });
   };
 
   const handleMainImageChange = async (e) => {
@@ -142,22 +276,6 @@ function Addprod() {
   const handleInputChange = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
-
-  // const handleCheckboxChange = (e) => {
-  //   const { value, checked } = e.target;
-  //   if (checked) {
-  //     setdata((prev) => ({
-  //       ...prev,
-  //       sizes: [...prev.sizes, value],
-  //     }));
-  //   } else {
-  //     setdata((prev) => ({
-  //       ...prev,
-  //       sizes: prev.sizes.filter((size) => size !== value),
-  //     }));
-  //   }
-  // };
-
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
@@ -203,12 +321,12 @@ function Addprod() {
     formData.append("features", data.features);
     formData.append("description", data.description);
     formData.append("mainimage", data.mainimage);
+    formData.append("additionalImage1", data.additionalImages1);
+    formData.append("additionalImage2", data.additionalImages2);
+    formData.append("additionalImage3", data.additionalImages3);
 
-    data.additionalImages.forEach((file) => {
-      formData.append(`additionalImages`, file);
-    });
     try {
-      const res = api.post(`seller/submitproduct`, formData);
+      const res = api.post(`api/seller/submitproduct`, formData);
 
       toast.promise(res, {
         loading: "Submitting Product...",
@@ -223,8 +341,6 @@ function Addprod() {
       const postPromise = await res;
 
       if (postPromise.status === 200) {
-        toast.success("Product uploaded successfully!");
-        toast.success("Navigating to product page...");
         setTimeout(() => {
           nav("/sellerhome/products");
         }, 2000);
@@ -237,10 +353,6 @@ function Addprod() {
 
   return (
     <section className="w-full h-full px-4">
-      <div>
-        <Toaster position="bottom-right" />
-      </div>
-
       <form
         action=""
         className="w-full h-full grid grid-cols-2 gap-2"
@@ -429,12 +541,12 @@ function Addprod() {
           </div>
 
           {/* colors */}
-          <div className="flex flex-col gap-2 mb-2">
+          <div className="flex flex-col gap-2 mb-2 ">
             <label className="font-medium" htmlFor="colors">
               Available Product Colors:
             </label>
 
-            <div className="flex gap-4 flex-wrap">
+            <div className="flex gap-3 overflow-x-scroll px-1">
               {colors.map((color) => (
                 <label key={color}>
                   <input

@@ -18,6 +18,7 @@ function ProductSeller() {
 
   const [products, setproducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [change, setChange] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +28,8 @@ function ProductSeller() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await api.get(`seller/products`);
+        const res = await api.get(`api/seller/products`);
+
         setproducts(res.data.data);
       } catch (err) {
         console.log(err);
@@ -37,7 +39,7 @@ function ProductSeller() {
     };
 
     fetchdata();
-  }, []);
+  }, [change]);
 
   useEffect(() => {
     const filtered = products.filter((product) => {
@@ -64,9 +66,9 @@ function ProductSeller() {
   const handleDelete = async (id) => {
     try {
       setLoading(true);
-      const res = await api.delete(`seller/deleteproduct/${id}`);
-      console.log(res.data);
-      if (res.data.status === "done") {
+      const res = await api.delete(`/api/seller/deleteproduct/${id}`);
+      if (res.data.message === "Product deleted successfully") {
+        setChange(!change);
       }
     } catch (err) {
     } finally {

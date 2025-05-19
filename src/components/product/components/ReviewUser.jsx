@@ -42,7 +42,7 @@ const ReviewUser = () => {
     };
 
     try {
-      const res = api.post("/reviews", data);
+      const res = api.post("/api/user/reviews", data);
 
       toast.promise(res, {
         loading: "Submitting Review.....",

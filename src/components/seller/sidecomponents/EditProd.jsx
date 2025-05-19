@@ -1,38 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../api";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { BiImageAdd } from "react-icons/bi";
 
 import compressImage from "../../../utils/compressImage";
 import { Loader2, X } from "lucide-react";
 function EditProd() {
   const { id } = useParams();
+  const nav = useNavigate();
 
   const catogories = [
-    "Tshirts",
+    // Tops
+    "T-Shirts",
     "Shirts",
+    "Tops",
+    "Tunics",
+
+    // Outerwear
     "Jackets",
     "Sweaters",
     "Hoodies",
-    "Pants",
-    "Casuals",
-    "Formals",
-    "Party Wears",
-    "Sports Wear",
-    "Daily Wear",
+
+    // Bottoms
     "Jeans",
+    "Pants",
     "Trousers",
     "Shorts",
-    "Jumpsuits",
-    "Dresses",
     "Skirts",
-    "Tops",
-    "Tunics",
+
+    // Full Body
+    "Dresses",
+    "Jumpsuits",
+
+    // Style Categories
+    "Casual Wear",
+    "Formal Wear",
+    "Party Wear",
+    "Sports Wear",
+
+    // Other
     "Others",
   ];
 
   const colors = [
+    // Basic Colors
     "Red",
     "Blue",
     "Black",
@@ -42,10 +54,124 @@ function EditProd() {
     "Orange",
     "Pink",
     "Purple",
-    "Brown",
-    "Gray",
+    "Aqua",
+    "Cyan",
+    "Fuchsia",
+    "Indigo",
+    "Khaki",
+    "Lavender",
+    "Lime",
+    "Magenta",
+    "Maroon",
+    "Olive",
+    "Orchid",
+    "Periwinkle",
+    "Plum",
+    "Salmon",
+    "Teal",
+    "Turquoise",
+    "Violet",
+
+    // Light Colors
+    "AliceBlue",
+    "AntiqueWhite",
+    "Azure",
+    "Bisque",
+    "BlanchedAlmond",
+    "Cornsilk",
+    "FloralWhite",
+    "GhostWhite",
+    "Honeydew",
+    "Ivory",
+    "LavenderBlush",
+    "LemonChiffon",
+    "Linen",
+    "MintCream",
+    "MistyRose",
+    "Moccasin",
+    "NavajoWhite",
+    "OldLace",
+    "PapayaWhip",
+    "PeachPuff",
+    "Seashell",
+    "Snow",
+    "Thistle",
+    "Wheat",
+    "WhiteSmoke",
+
+    // Dark Colors
+    "DarkBlue",
+    "DarkCyan",
+    "DarkGoldenRod",
+    "DarkGray",
+    "DarkGreen",
+    "DarkKhaki",
+    "DarkMagenta",
+    "DarkOliveGreen",
+    "DarkOrange",
+    "DarkOrchid",
+    "DarkRed",
+    "DarkSalmon",
+    "DarkSeaGreen",
+    "DarkSlateBlue",
+    "DarkSlateGray",
+    "DarkTurquoise",
+    "DarkViolet",
+    "DeepPink",
+    "DeepSkyBlue",
+    "DimGray",
+    "DodgerBlue",
+    "FireBrick",
+    "ForestGreen",
+    "Gainsboro",
+    "GoldenRod",
+    "IndianRed",
+    "MediumAquaMarine",
+    "MediumBlue",
+    "MediumOrchid",
+    "MediumPurple",
+    "MediumSpringGreen",
+    "MediumVioletRed",
+    "MidnightBlue",
+    "OliveDrab",
+    "OrangeRed",
+    "PaleGreen",
+    "PaleTurquoise",
+    "PaleVioletRed",
+    "Peru",
+    "PowderBlue",
+    "RosyBrown",
+    "RoyalBlue",
+    "SaddleBrown",
+    "SandyBrown",
+    "SeaGreen",
+    "Sienna",
+    "SkyBlue",
+    "SlateBlue",
+    "SlateGray",
+    "SpringGreen",
+    "SteelBlue",
+    "Tan",
+    "YellowGreen",
+
+    // Additional Colors
     "Beige",
+    "Brown",
+    "Coral",
     "Gold",
+    "Gray",
+    "LightBlue",
+    "LightCoral",
+    "LightGreen",
+    "LightPink",
+    "LightSalmon",
+    "LightSeaGreen",
+    "LightSkyBlue",
+    "LightSlateGray",
+    "LightSteelBlue",
+    "LightYellow",
+    "Navy",
+    "Silver",
   ];
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -66,14 +192,17 @@ function EditProd() {
     stock: "",
     features: "",
     styleTips: "",
-    additionalImages: [],
+    images: [],
+    additionalImages1: "",
+    additionalImages2: "",
+    additionalImages3: "",
   });
 
   // fetch product data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get(`/seller/getproduct/${id}`);
+        const res = await api.get(`api/seller/fetchproduct/${id}`);
         setProdData(res.data.product);
         setImagePreview(res.data.product.images[0]);
         setSelectedPreviews(res.data.product.images.slice(1, 4));
@@ -83,28 +212,6 @@ function EditProd() {
     };
     fetchData();
   }, []);
-
-  // handle submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("name", prodData.name);
-    formData.append("description", prodData.description);
-    formData.append("features", prodData.features);
-    formData.append("styleTips", prodData.styleTips);
-    formData.append("price", prodData.price);
-    formData.append("category", prodData.category);
-    formData.append("brand", prodData.brand);
-    formData.append("stock", prodData.stock);
-    formData.append("sizes", prodData.sizes);
-    formData.append("colors", prodData.colors);
-    formData.append("mainimage", prodData.mainimage);
-    formData.append("additionalImages", prodData.additionalImages);
-
-    const res = await api.patch(`/seller/editproduct/${id}`, formData);
-    console.log(res);
-  };
 
   // handle main image change
   const handleMainImageChange = async (e) => {
@@ -147,37 +254,41 @@ function EditProd() {
       return updated;
     });
 
-    // Update additionalImages safely
-    setProdData((prev) => {
-      console.log(prev);
+    // Set image key dynamically
+    const imageKey = `additionalImages${index + 1}`;
 
-      const updatedImages = [...prev.additionalImages];
-      updatedImages[index] = compressedFile;
-      return { ...prev, additionalImages: updatedImages };
-    });
+    // Update state with the correct key
+    setProdData((prev) => ({
+      ...prev,
+      [imageKey]: compressedFile,
+    }));
 
-    // Update preview safely
+    // Update preview
     const reader = new FileReader();
     reader.onloadend = () => {
       setSelectedPreviews((prev) => {
-        const updatedPreviews = [...prev];
-        updatedPreviews[index] = reader.result;
-        return updatedPreviews;
+        const updated = [...prev];
+        updated[index] = reader.result;
+        return updated;
       });
     };
     reader.readAsDataURL(compressedFile);
   };
 
-  // handle remove additional image
   const handleRemoveAdditionalImage = (index) => {
-    const updatedImages = [...data.additionalImages];
-    const updatedPreviews = [...selectedPreviews];
+    const imageKey = `additionalImages${index + 1}`;
 
-    updatedImages[index] = null; // or undefined
-    updatedPreviews[index] = null;
+    // Clear the image and preview for that slot
+    setProdData((prev) => ({
+      ...prev,
+      [imageKey]: "",
+    }));
 
-    setProdData({ ...prodData, additionalImages: updatedImages });
-    setSelectedPreviews(updatedPreviews);
+    setSelectedPreviews((prev) => {
+      const updated = [...prev];
+      updated[index] = null;
+      return updated;
+    });
   };
 
   // handle input change
@@ -205,8 +316,67 @@ function EditProd() {
         : prev.colors.filter((color) => color !== name),
     }));
   };
+
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", prodData.name);
+    formData.append("description", prodData.description);
+    formData.append("features", prodData.features);
+    formData.append("styleTips", prodData.styleTips);
+    formData.append("price", prodData.price);
+    formData.append("category", prodData.category);
+    formData.append("brand", prodData.brand);
+    formData.append("stock", prodData.stock);
+    formData.append("sizes", prodData.sizes);
+    formData.append("colors", prodData.colors);
+    if (prodData.mainimage || prodData.images[0]) {
+      formData.append("mainimage", prodData.mainimage || prodData.images[0]);
+    }
+    if (prodData.additionalImages1 || prodData.images[1]) {
+      formData.append(
+        "additionalImage1",
+        prodData.additionalImages1 || prodData.images[1]
+      );
+    }
+    if (prodData.additionalImages2 || prodData.images[2]) {
+      formData.append(
+        "additionalImage2",
+        prodData.additionalImages2 || prodData.images[2]
+      );
+    }
+    if (prodData.additionalImages3 || prodData.images[3]) {
+      formData.append(
+        "additionalImage3",
+        prodData.additionalImages3 || prodData.images[3]
+      );
+    }
+
+    const res = api.patch(`/api/seller/editproduct/${id}`, formData);
+
+    toast.promise(res, {
+      loading: "Updating Product...",
+      success: (res) => {
+        return res.data.message || "Product updated successfully!";
+      },
+      error: (err) => {
+        return err?.response?.data?.message || "Update failed.";
+      },
+    });
+
+    const promise = await res;
+    if (promise.data.status === "success") {
+      setTimeout(() => {
+        nav("/sellerhome/products");
+      }, 1000);
+    }
+  };
+
   return (
     <section className="w-full h-full px-4">
+      <Toaster position="bottom-right" />
       <form
         className="w-full h-full grid grid-cols-2 gap-2"
         onSubmit={handleSubmit}
@@ -396,7 +566,7 @@ function EditProd() {
               Available Product Colors:
             </label>
 
-            <div className="flex gap-4 flex-wrap">
+            <div className="flex gap-3 overflow-x-scroll px-1">
               {colors.map((color) => (
                 <label key={color}>
                   <input

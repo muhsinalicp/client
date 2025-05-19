@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../Homepage/Navbar";
 import { Loader2, Minus, Plus, Star } from "lucide-react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { motion } from "motion/react";
 import api from "../../api";
 import toast, { Toaster } from "react-hot-toast";
 import ProductDescriptions from "./components/ProductDescriptions";
 import AlsoLike from "./components/AlsoLike";
-import Footer from "../Homepage/Footer";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -16,15 +13,16 @@ function ProductDetail() {
   const [count, setcount] = useState(1);
   const [loading, setloading] = useState(false);
   const [selectedImage, setselectedImage] = useState();
-  const [showBreadcrumb, setshowBreadcrumb] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
 
   useEffect(() => {
     const fetchdata = async () => {
       setloading(true);
       try {
-        const res = await api.get(`product/${id}`);
-        setproduct(res.data.data);
-        setselectedImage(res.data.data.images[0]);
+        const res = await api.get(`/api/user/product/${id}`);
+        setproduct(res.data.product);
+        setselectedImage(res.data.product.images[0]);
       } catch (err) {
         console.log(err);
       } finally {
@@ -49,17 +47,70 @@ function ProductDetail() {
     setselectedImage(image);
   }
 
-  function handleaddtocart(id, count) {
-    const data = {
-      productid: product._id,
-      quantity: count,
-    };
+  async function handleaddtocart() {
+    if (!selectedColor || !selectedSize) {
+      toast.error("you need to select color and size", {
+        position: "bottom-right",
+        icon: "⚠️",
+        style: {
+          border: "1px solid black",
+          padding: "6px 20px",
+          color: "black",
+        },
+        iconTheme: {
+          primary: "black",
+          secondary: "white",
+        },
+      });
+      return;
+    }
 
-    setshowBreadcrumb(true);
-    setTimeout(() => {
-      setshowBreadcrumb(false);
-    }, 3000);
+    try {
+      const data = {
+        productId: product._id,
+        color: selectedColor,
+        size: selectedSize,
+        quantity: count,
+        price: product.price,
+      };
+
+      const res = api.post(`/api/user/addtocart`, data);
+
+      toast.promise(
+        res,
+        {
+          loading: "Adding to cart...",
+          success: "item added to cart",
+          error: (err) => err.response.data.message || "something went wrong",
+        },
+        {
+          position: "bottom-right",
+          style: {
+            border: "1px solid black",
+            padding: "6px 20px",
+            color: "black",
+          },
+          iconTheme: {
+            primary: "black",
+            secondary: "white",
+          },
+        }
+      );
+    } catch (error) {
+      toast.error(error.response.data.message || "Something went wrong");
+    }
   }
+  // toast.success(`${count} ${product?.name} added to cart`, {
+  //   style: {
+  //     border: "1px solid black",
+  //     padding: "6px 20px",
+  //     color: "black",
+  //   },
+  //   iconTheme: {
+  //     primary: "black",
+  //     secondary: "white",
+  //   },
+  // });
 
   if (loading) {
     return (
@@ -85,6 +136,7 @@ function ProductDetail() {
           <div className="h-full flex md:flex-col overflow-x-auto scrollbar-hidden gap-3">
             {product?.images.map((item, index) => (
               <div
+                onClick={() => handleimage(item)}
                 key={index}
                 className={`flex-shrink-0 w-[80px] h-[80px] md:w-36 md:h-36 rounded-2xl flex items-center justify-center
                             cursor-pointer ${
@@ -147,12 +199,25 @@ function ProductDetail() {
             <div className="flex flex-col gap-2">
               <h1 className="text-base font-bold">Available Colors:</h1>
               <div className="flex gap-4">
-                {product?.colors.map((item, index) => (
-                  <span
+                {product?.colors.map((color, index) => (
+                  <label
                     key={index}
-                    className={`w-6 h-6 rounded-full hover:scale-110 duration-200 border-2 border-gray-400 inline-block peer-checked:ring-2 peer-checked:ring-red-500`}
-                    style={{ backgroundColor: item.toLowerCase() }}
-                  />
+                    className={`w-6 h-6 rounded-full cursor-pointer  ${
+                      selectedColor === color
+                        ? "ring-2 ring-black"
+                        : "border-gray-400 border-2"
+                    }`}
+                    style={{ backgroundColor: color.toLowerCase() }}
+                  >
+                    <input
+                      type="radio"
+                      name="color"
+                      className="hidden"
+                      value={color}
+                      checked={selectedColor === color}
+                      onChange={(e) => setSelectedColor(e.target.value)}
+                    />
+                  </label>
                 ))}
               </div>
             </div>
@@ -161,23 +226,20 @@ function ProductDetail() {
             <div className="flex flex-col gap-2">
               <h1 className="text-base font-bold">Available Sizes:</h1>
               <div className="flex gap-4">
-                {/* {product?.sizes.map((item, index) => (
-                  <span className="size-12 flex items-center justify-center font-extrabold rounded-full bg-zinc-100">
-                    {item}
-                  </span>
-                ))} */}
-
-                {["S", "M", "L", "XL"].map((item, index) => (
-                  <span
+                {product?.sizes.map((size, index) => (
+                  <button
                     key={index}
-                    className={`${
-                      product?.sizes.includes(item)
-                        ? "bg-green-500 text-white"
-                        : "bg-red-500 text-white"
-                    } size-10 flex items-center justify-center font-extrabold rounded-full`}
+                    type="button"
+                    className={`size-10 flex items-center justify-center font-extrabold rounded-full ${
+                      selectedSize === size
+                        ? "bg-black text-white"
+                        : "bg-zinc-100 hover:bg-zinc-200"
+                    }`}
+                    onClick={() => setSelectedSize(size)}
+                    disabled={!product.sizes.includes(size)}
                   >
-                    {item}
-                  </span>
+                    {size}
+                  </button>
                 ))}
               </div>
             </div>
@@ -201,8 +263,7 @@ function ProductDetail() {
               </span>
               <span
                 onClick={() => {
-                  handleaddtocart(product._id, count);
-                  toast.success("Successfully toasted!");
+                  handleaddtocart(product._id, count, product?.price);
                 }}
                 className="h-full py-3 rounded-2xl bg-black text-white flex-1 flex items-center justify-center cursor-pointer px-12"
               >

@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useState, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/context";
-
+import api from "../../api.js";
+import { toast, Toaster } from "react-hot-toast";
 function SignModal({ setOpen }) {
   const auth = useContext(AuthContext);
 
@@ -18,11 +19,7 @@ function SignModal({ setOpen }) {
       setIsLoading(true);
 
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}login_post`,
-          formData,
-          { withCredentials: true }
-        );
+        const response = await api.post("/api/auth/login", formData);
 
         if (
           response.data.status === "login successful" &&
@@ -45,7 +42,6 @@ function SignModal({ setOpen }) {
           err.response?.data?.status ||
           "Login failed. Please try again after sometimes";
         setError(errorMessage);
-        console.error("Login error:", err);
       } finally {
         setIsLoading(false);
       }
@@ -63,6 +59,7 @@ function SignModal({ setOpen }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-60">
+      <Toaster />
       <div
         className="fixed inset-0 bg-black opacity-50"
         onClick={() => setOpen(false)}

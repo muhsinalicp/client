@@ -38,7 +38,7 @@ function Arrivalpage() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await api.get("/newarrivals");
+        const res = await api.get("/api/user/newarrivals");
         setdata(res.data.data);
       } catch (err) {
         console.log(err);

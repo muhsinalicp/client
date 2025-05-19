@@ -7,13 +7,13 @@ function Products() {
   const nav = useNavigate();
 
   const [products, setproducts] = useState([]);
-
+  const [change, setChange] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await api.get(`seller/products`);
+        const res = await api.get(`api/seller/products`);
 
         setproducts(res.data.data);
       } catch (err) {
@@ -23,7 +23,7 @@ function Products() {
     };
 
     fetchdata();
-  }, []);
+  }, [change]);
 
   const handleDelete = async (id) => {
     try {
@@ -31,6 +31,7 @@ function Products() {
       const res = await api.delete(`seller/deleteproduct/${id}`);
       console.log(res.data);
       if (res.data.status === "done") {
+        setChange(!change);
       }
     } catch (err) {
     } finally {
@@ -50,7 +51,7 @@ function Products() {
     return (
       <div className="w-full h-full p-4">
         <h1 className="text-lg font-semibold text-center py-8">
-          No products found.
+          No products found
         </h1>
         <div className="flex gap-2 h-fit w-full justify-center">
           <div>
@@ -78,7 +79,7 @@ function Products() {
             onClick={() => nav("/sellerhome/products/addproduct")}
             className="bg-black text-white px-8 py-2 rounded-4xl  hover:transform hover:scale-102 duration-200 cursor-pointer active:bg-gray-800"
           >
-            Add Product
+            Add Productkkk
           </button>
         </div>
       </div>

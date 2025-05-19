@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../api";
 import { Star } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 function AlsoLike({ categories }) {
   const [data, setData] = useState([]);
 
   const [loading, setLoading] = useState(false);
+
+  const { id } = useParams();
 
   const nav = useNavigate();
 
@@ -13,7 +15,7 @@ function AlsoLike({ categories }) {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await api.get(`/products/${categories}`);
+        const res = await api.get(`/api/user/products/${categories}/${id}`);
         setData(res.data.data);
       } catch (error) {
         console.log(error);
@@ -29,7 +31,7 @@ function AlsoLike({ categories }) {
   }
 
   if (data.length === 0) {
-    return <div>No data found</div>;
+    return <div className="text-2xl md:text-4xl pt-5"></div>;
   }
 
   return (

@@ -7,7 +7,6 @@ import Sellerhome from "./components/seller/Sellerhome";
 import Sellerreg from "./components/seller/Sellerreg";
 import Addprod from "./components/seller/Addprod";
 import Dashboard from "./components/seller/sidecomponents/Dashboard";
-import Products from "./components/seller/sidecomponents/Products";
 import Orders from "./components/seller/sidecomponents/Orders";
 import ProductDetail from "./components/product/ProductDetail";
 import { AuthProvider } from "./context/context";
@@ -16,6 +15,7 @@ import ProductSeller from "./components/seller/sidecomponents/ProductSeller";
 import EditProd from "./components/seller/sidecomponents/EditProd";
 import NotFound from "./components/NotFound";
 import AboutPage from "./components/Homepage/AboutPage";
+import Cart from "./components/Homepage/Cart";
 function App() {
   return (
     <AuthProvider>
@@ -27,6 +27,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/sellerhome" element={<Sellerhome />}>
           <Route index element={<Dashboard />} />

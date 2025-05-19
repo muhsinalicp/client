@@ -62,6 +62,7 @@ function Navbar() {
           </div>
           <div className=" gap-4 hidden lg:flex">
             <LucideShoppingCart
+              onClick={() => nav("/cart")}
               className="hover:cursor-pointer  lg:hover:transform hover:scale-110"
               size={30}
             />

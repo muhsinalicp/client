@@ -10,7 +10,7 @@ function Topsellpage() {
   useEffect(() => {
     const fetchdata = async () => {
       try {
-        const res = await api.get("/bestsellers");
+        const res = await api.get("/api/user/topsell");
         setdata(res.data.data);
       } catch (err) {
         console.log(err);
@@ -46,12 +46,10 @@ function Topsellpage() {
                 </span>
 
                 <span className="flex gap-1 items-center">
-                  {Array.from({ length: item.rating }).map((_, index) => (
+                  {Array.from({ length: item.avgRating }).map((_, index) => (
                     <Star className="text-yellow-400" fill="gold" size={20} />
                   ))}
-                  <span className="text-gray-500">
-                    {item.rating.toFixed(1)}/5
-                  </span>
+                  <span className="text-gray-500">{item.avgRating}/5</span>
                 </span>
 
                 <span className="font-semibold text-lg lg:text-xl">

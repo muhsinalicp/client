@@ -12,7 +12,7 @@ function ReviewCont({ submitted, setReviewCount, ascending }) {
     const fetchReviews = async () => {
       setLoading(true);
       try {
-        const res = await api.get(`/reviews/${id}`);
+        const res = await api.get(`/api/user/reviews/${id}`);
         setReviews(res.data.data);
         if (!ascending) {
           setReviews(res.data.data.reverse());
