@@ -47,7 +47,12 @@ function Topsellpage() {
 
                 <span className="flex gap-1 items-center">
                   {Array.from({ length: item.avgRating }).map((_, index) => (
-                    <Star className="text-yellow-400" fill="gold" size={20} />
+                    <Star
+                      key={index}
+                      className="text-yellow-400"
+                      fill="gold"
+                      size={20}
+                    />
                   ))}
                   <span className="text-gray-500">{item.avgRating}/5</span>
                 </span>

@@ -47,7 +47,6 @@ function Shop() {
           params: { category: category, price: price, rating: rating },
         });
         setData(res.data.products);
-        console.log(res.data.products);
         setTotalPages(res.data.totalPages);
         setFilteringData({
           category: res.data.availableCategories,
@@ -82,14 +81,14 @@ function Shop() {
   }
 
   return (
-    <div className="w-screen h-screen max-h-screen">
+    <div className="w-screen min-h-screen">
       <Toaster />
       <div className="border-b-1 border-gray-300">
         <Navbar />
       </div>
       <section className="p-4 w-full h-[90%] flex ">
         {/* filter section  */}
-        <section className="px-4 w-[20%]">
+        <section className="px-4 hidden md:block md:w-[20%]">
           <Filter
             filteringData={filteringData}
             setFilteringData={setFilteringData}
@@ -97,7 +96,7 @@ function Shop() {
         </section>
 
         {/* product section */}
-        <section className="w-[80%]">
+        <section className="w-full md:w-[80%]">
           <Products data={data} totalPages={totalPages} />
         </section>
       </section>

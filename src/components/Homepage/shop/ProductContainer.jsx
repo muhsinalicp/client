@@ -5,14 +5,14 @@ function ProductContainer({ data }) {
   const navigate = useNavigate();
 
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
       {data.map((product) => (
         <div
           onClick={() => navigate(`/product/${product._id}`)}
           key={product._id}
-          className=" rounded-xl  p-2 w-full h-full hover:cursor-pointer hover:shadow-xs hover:scale-101 transition-all duration-300"
+          className=" rounded-xl  p-1 w-full h-full hover:cursor-pointer hover:shadow-xs hover:scale-101 transition-all duration-300"
         >
-          <div className="h-56">
+          <div className="h-40 md:h-56">
             <img
               src={product.images[0]}
               className="w-full h-full object-cover rounded-xl"

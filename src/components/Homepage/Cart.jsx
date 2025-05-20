@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import api from "../../api";
 import { Loader2, TrashIcon } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import pay from "../../utils/RazorPay";
 
 function Cart() {
   const [cart, setcart] = useState([{}]);
@@ -193,7 +194,10 @@ function Cart() {
 
                 {/* checkout button  */}
                 <div className="w-full h-full flex justify-center gap-2 p-2">
-                  <button className="w-full bg-black text-white p-2 rounded-lg">
+                  <button
+                    onClick={() => pay(cartSummary.grandTotal, "1", "1")}
+                    className="w-full bg-black text-white p-2 rounded-lg"
+                  >
                     Checkout
                   </button>
                 </div>

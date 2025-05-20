@@ -113,6 +113,7 @@ function Filter({ filteringData }) {
                   name="rating"
                   value={rating}
                   checked={paramsRating === String(rating.rating)}
+                  onChange={() => handleFilter("rating", rating.rating)}
                 />
                 <div
                   onClick={() => handleFilter("rating", rating.rating)}
