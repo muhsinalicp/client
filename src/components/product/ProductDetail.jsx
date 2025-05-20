@@ -117,17 +117,6 @@ function ProductDetail() {
       toast.error(error.response.data.message || "Something went wrong");
     }
   }
-  // toast.success(`${count} ${product?.name} added to cart`, {
-  //   style: {
-  //     border: "1px solid black",
-  //     padding: "6px 20px",
-  //     color: "black",
-  //   },
-  //   iconTheme: {
-  //     primary: "black",
-  //     secondary: "white",
-  //   },
-  // });
 
   if (loading) {
     return (

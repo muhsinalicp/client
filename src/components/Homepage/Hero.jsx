@@ -19,7 +19,7 @@ function Hero() {
             </div>
 
             <div>
-              <Link to="/shop">
+              <Link to="/shop/1/all/all/all">
                 <button className="bg-black text-white px-14 py-3 rounded-4xl  hover:transform hover:scale-102 duration-200 cursor-pointer">
                   Shop Now
                 </button>

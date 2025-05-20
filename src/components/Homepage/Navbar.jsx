@@ -15,7 +15,7 @@ function Navbar() {
   const { pathname } = useLocation();
 
   return (
-    <div className="p-5  h-[8vh] flex justify-between items-center">
+    <div className="p-5  h-fit flex justify-between items-center">
       <div className="flex items-center gap-4">
         {pathname !== "/" && (
           <div className="hover:cursor-pointer">
