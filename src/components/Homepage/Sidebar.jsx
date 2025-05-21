@@ -38,7 +38,7 @@ function Sidebar({ sidebar, setsidebar }) {
           exit={{ x: "+100%" }}
           transition={{ duration: 0.3 }}
         >
-          <div className=" h-full w-full outline relative pt-12">
+          <div className=" h-full w-full outline relative pb-10 md:pb-0 pt-12">
             <div className="w-full flex justify-between outline p-2 absolute top-0">
               <h1 className="text-white text-2xl head-font">Cart-Hive</h1>
               <FaAngleDoubleRight
@@ -104,18 +104,6 @@ function Sidebar({ sidebar, setsidebar }) {
                 </button>
               </div>
             </div>
-
-            {/* <div className="h-full w-full flex flex-col justify-end  text-white ">
-              <div
-                className="outline-2 active:bg-neutral-950 hover:bg-neutral-900 rounded-lg px-4 py-2  cursor-pointer "
-                onClick={handlelogout}
-              >
-                <div className="flex gap-2 items-center   hover:transform hover:scale-102 duration-200">
-                  <LogOutIcon size={25} color="white" className="" />
-                  <div className="text-2xl font-bold">Logout</div>
-                </div>
-              </div>
-            </div> */}
           </div>
         </motion.div>
       )}
