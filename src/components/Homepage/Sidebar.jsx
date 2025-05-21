@@ -32,13 +32,13 @@ function Sidebar({ sidebar, setsidebar }) {
       {sidebar && (
         <motion.div
           key="sidebar"
-          className="h-[100vh] md:w-1/6 w-[90%]  bg-black backdrop-blur-sm top-0 right-0 shadow-2xl fixed z-58 p-2 "
+          className="h-[100dvh] md:w-1/6 w-[60%]  bg-black backdrop-blur-sm top-0 right-0 shadow-2xl fixed z-58 p-2 "
           initial={{ x: "+100%" }}
           animate={{ x: 0 }}
           exit={{ x: "+100%" }}
           transition={{ duration: 0.3 }}
         >
-          <div className=" h-full w-full outline relative pb-10 md:pb-0 pt-12">
+          <div className=" h-full w-full outline relative  md:pb-0 pt-12">
             <div className="w-full flex justify-between outline p-2 absolute top-0">
               <h1 className="text-white text-2xl head-font">Cart-Hive</h1>
               <FaAngleDoubleRight
