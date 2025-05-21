@@ -16,6 +16,7 @@ import EditProd from "./components/seller/sidecomponents/EditProd";
 import NotFound from "./components/NotFound";
 import AboutPage from "./components/Homepage/AboutPage";
 import Cart from "./components/Homepage/Cart";
+import OrderPage from "./components/Homepage/orders/OrderPage";
 function App() {
   return (
     <AuthProvider>
@@ -28,6 +29,7 @@ function App() {
         <Route path="/shop/:page/:category/:price/:rating" element={<Shop />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/orders" element={<OrderPage />} />
 
         <Route path="/sellerhome" element={<Sellerhome />}>
           <Route index element={<Dashboard />} />

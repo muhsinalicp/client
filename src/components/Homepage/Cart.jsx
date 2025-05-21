@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import pay from "../../utils/RazorPay";
 
 function Cart() {
-  const [cart, setcart] = useState([{}]);
+  const [cart, setcart] = useState([]);
   const [loading, setloading] = useState(false);
   const [render, setrender] = useState(false);
   const [cartSummary, setcartSummary] = useState({
@@ -18,18 +18,18 @@ function Cart() {
 
   useEffect(() => {
     setloading(true);
-    try {
-      const fetchcart = async () => {
+    const fetchcart = async () => {
+      try {
         const res = await api.get("/api/user/cart");
         setcart(res.data.cart);
         setcartSummary(res.data.cartSummary);
-      };
-      fetchcart();
-    } catch (error) {
-      toast.error("Failed to fetch cart");
-    } finally {
-      setloading(false);
-    }
+      } catch (error) {
+        toast.error("Failed to fetch cart");
+      } finally {
+        setloading(false);
+      }
+    };
+    fetchcart();
   }, [render]);
 
   // delete item from cart
@@ -56,6 +56,23 @@ function Cart() {
         },
       }
     );
+  };
+
+  const handleCheckout = async (price, deliveryCharge, superTotal) => {
+    const proddet = cart.map((item) => ({
+      seller: item.seller,
+      id: item.productId,
+      color: item.color,
+      size: item.size,
+      quantity: item.quantity,
+      cartId: item._id,
+      price: item.totalAmount - (item.totalAmount / 100) * cartSummary.discount,
+    }));
+    const res = await pay(price, proddet, deliveryCharge, superTotal);
+
+    if (res.success) {
+      setrender(!render);
+    }
   };
 
   if (loading) {
@@ -195,7 +212,13 @@ function Cart() {
                 {/* checkout button  */}
                 <div className="w-full h-full flex justify-center gap-2 p-2">
                   <button
-                    onClick={() => pay(cartSummary.grandTotal, "1", "1")}
+                    onClick={() =>
+                      handleCheckout(
+                        cartSummary.grandTotal,
+                        cartSummary.deliveryCharges,
+                        cartSummary.totalAmount
+                      )
+                    }
                     className="w-full bg-black text-white p-2 rounded-lg"
                   >
                     Checkout
