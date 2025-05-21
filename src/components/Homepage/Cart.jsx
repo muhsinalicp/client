@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import api from "../../api";
 import { Loader2, TrashIcon } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import pay from "../../utils/RazorPay";
-
+import { AuthContext } from "../../context/context";
+import { Navigate } from "react-router-dom";
 function Cart() {
+  const auth = useContext(AuthContext);
   const [cart, setcart] = useState([]);
   const [loading, setloading] = useState(false);
   const [render, setrender] = useState(false);
@@ -74,6 +76,10 @@ function Cart() {
       setrender(!render);
     }
   };
+
+  if (!auth.isAuth) {
+    return <Navigate to="/" />;
+  }
 
   if (loading) {
     return (
