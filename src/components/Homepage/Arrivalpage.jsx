@@ -42,9 +42,9 @@ function Arrivalpage() {
         NEW ARRIVALS
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 py-5 px-5 lg:px-12 ">
-        {data.map((item) => (
+        {data.map((item, index) => (
           <div
-            key={item._id}
+            key={index}
             className="flex flex-col  items-center hover:transform  hover:scale-102 duration-200 hover:shadow-sm rounded-2xl p-2 cursor-pointer  "
             onClick={() => {
               item.name && nav(`/product/${item._id}`);
@@ -92,7 +92,10 @@ function Arrivalpage() {
       </div>
 
       <div className="w-full flex justify-center items-center py-5">
-        <button className=" outline-1 outline-gray-400 px-14 py-2 rounded-4xl hover:bg-gray-200 hover:cursor-pointer">
+        <button
+          onClick={() => nav("/shop/1/new%20arrivals/all/all")}
+          className=" outline-1 outline-gray-400 px-14 py-2 rounded-4xl hover:bg-gray-200 hover:cursor-pointer"
+        >
           View All
         </button>
       </div>

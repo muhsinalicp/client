@@ -32,7 +32,7 @@ function Products({ data, totalPages }) {
   return (
     <div className="w-full h-full rounded-xl flex flex-col gap-4 justify-between">
       <div className="flex items-center h-fit  flex-col md:flex-row justify-between">
-        <h1 className="head-font text-3xl">
+        <h1 className="head-font text-3xl uppercase">
           {category === "all" ? "All Products" : category}
         </h1>
         <div className="flex items-center gap-1 w-full md:w-auto">

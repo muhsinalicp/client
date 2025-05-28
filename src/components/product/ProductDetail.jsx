@@ -50,8 +50,16 @@ function ProductDetail() {
     setselectedImage(image);
   }
 
-  async function handleaddtocart() {
+  async function handleaddtocart(stock) {
     let err;
+
+    if (stock < count) {
+      err = "not enough stock";
+    }
+
+    if (stock === 0) {
+      err = "product is out of stock";
+    }
 
     if (!selectedSize) {
       err = "you need to select size";
@@ -176,9 +184,17 @@ function ProductDetail() {
         <div className="flex  py-4  w-full   md:py-12 px-4">
           <div className="flex flex-col w-full gap-6 ">
             {/* product title  */}
-            <h1 className="uppercase head-font text-lg  md:text-4xl">
-              {product?.name}
-            </h1>
+            <div>
+              <h1 className="uppercase head-font text-lg  md:text-4xl">
+                {product?.name}
+              </h1>
+              {product?.stock < 11 && (
+                <p className="text-xs font-semibold text-red-500">
+                  {" "}
+                  Hurry up! only {product.stock} left
+                </p>
+              )}
+            </div>
 
             {/* rating  */}
             <span className="flex gap-1">
@@ -192,15 +208,12 @@ function ProductDetail() {
               ))}
               <span className="text-gray-500">{product?.avgRating}/5</span>
             </span>
-
             {/* description  */}
             <span className="md:w-3/4 text-xs">{product?.description}</span>
-
             {/* price  */}
             <span className="font-extrabold head-font text-lg lg:text-3xl">
               ₹ {product?.price}
             </span>
-
             {/* available colors */}
             <div className="flex flex-col gap-2">
               <h1 className="text-base font-bold">Available Colors:</h1>
@@ -227,7 +240,6 @@ function ProductDetail() {
                 ))}
               </div>
             </div>
-
             {/* available sizes */}
             <div className="flex flex-col gap-2">
               <h1 className="text-base font-bold">Available Sizes:</h1>
@@ -249,7 +261,6 @@ function ProductDetail() {
                 ))}
               </div>
             </div>
-
             {/* quantity and add to cart  */}
             <div className="w-full h-fit flex flex-col md:flex-row gap-2 md:gap-12">
               <span className="py-3 rounded-2xl bg-zinc-100 flex items-center flex-1  justify-between gap-2 px-4">
@@ -269,7 +280,7 @@ function ProductDetail() {
               </span>
               <span
                 onClick={() => {
-                  handleaddtocart(product._id, count, product?.price);
+                  handleaddtocart(product.stock);
                 }}
                 className="h-full py-3 rounded-2xl bg-black text-white flex-1 flex items-center justify-center cursor-pointer px-12"
               >
