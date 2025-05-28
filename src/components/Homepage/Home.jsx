@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Promotion from "./Promotion";
 import Arrivalpage from "./Arrivalpage";
 import Topsellpage from "./Topsellpage";
-import BrowseCat from "./BrowseCat";
+// import BrowseCat from "./BrowseCat";
 import Footer from "./Footer";
 
 function Home() {
-  const [lid, setlid] = useState();
-
   return (
     <div>
       {/* hero section */}
@@ -38,9 +36,9 @@ function Home() {
       </div>
 
       {/* browse categories page  */}
-      <div className="h-fit w-screen py-8 ">
+      {/* <div className="h-fit w-screen py-8 ">
         <BrowseCat />
-      </div>
+      </div> */}
 
       {/* footer  */}
       <footer className="w-full lg:h-[50vh] h-fit">

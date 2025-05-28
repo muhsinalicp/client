@@ -57,7 +57,7 @@ const ProductDetails = ({ data }) => {
           {data?.colors.map((color) => (
             <div
               key={color}
-              className={`w-14 rounded-md text-center py-1  ${getTextColor(
+              className={`w-fill px-2 rounded-md text-center py-1  ${getTextColor(
                 color
               )} font-medium text-sm outline  outline-gray-200`}
               style={{ backgroundColor: color }}

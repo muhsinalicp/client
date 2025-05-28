@@ -8,27 +8,15 @@ import loading from "../../assets/loading.gif";
 function Arrivalpage() {
   const [data, setdata] = useState([
     {
-      _id: "1",
-      productname: "Product 1",
-      productprice: 100,
       images: [loading],
     },
     {
-      _id: "2",
-      productname: "Product 2",
-      productprice: 200,
       images: [loading],
     },
     {
-      _id: "3",
-      productname: "Product 3",
-      productprice: 300,
       images: [loading],
     },
     {
-      _id: "4",
-      productname: "Product 4",
-      productprice: 400,
       images: [loading],
     },
   ]);
@@ -58,38 +46,46 @@ function Arrivalpage() {
           <div
             key={item._id}
             className="flex flex-col  items-center hover:transform  hover:scale-102 duration-200 hover:shadow-sm rounded-2xl p-2 cursor-pointer  "
-            onClick={() => nav(`/product/${item._id}`)}
+            onClick={() => {
+              item.name && nav(`/product/${item._id}`);
+            }}
           >
             <div className="w-full  flex flex-col justify-center items-center rounded-3xl">
               <div className=" w-full h-40 lg:h-90 rounded-2xl flex items-center justify-center">
                 <img
-                  className="w-full h-full object-cover rounded-2xl"
+                  className={` object-cover rounded-2xl ${
+                    item.images[0] === loading
+                      ? " animate-pulse"
+                      : "w-full h-full"
+                  }`}
                   src={item.images[0]}
                   alt=""
                 />
               </div>
 
-              <div className="flex flex-col justify-start w-full py-3 px-2">
-                <span className="font-semibold text-xl lg:text-2xl overflow-x-scroll">
-                  {item.name}
-                </span>
+              {item.name && (
+                <div className="flex flex-col justify-start w-full py-3 px-2">
+                  <span className="font-semibold text-xl lg:text-2xl overflow-x-scroll">
+                    {item.name}
+                  </span>
 
-                <span className="flex gap-1 items-center">
-                  {Array.from({ length: item.avgRating }).map((_, index) => (
-                    <Star
-                      key={index}
-                      className="text-yellow-400"
-                      fill="gold"
-                      size={20}
-                    />
-                  ))}
-                  <span className="text-gray-500">{item?.avgRating}/5</span>
-                </span>
+                  <span className="flex gap-1 items-center">
+                    {Array.from({ length: item.avgRating }).map((_, index) => (
+                      <Star
+                        key={index}
+                        className="text-yellow-400"
+                        fill="gold"
+                        size={20}
+                      />
+                    ))}
+                    <span className="text-gray-500">{item?.avgRating}/5</span>
+                  </span>
 
-                <span className="font-semibold text-lg lg:text-xl">
-                  Rs. {item.price}
-                </span>
-              </div>
+                  <span className="font-semibold text-lg lg:text-xl">
+                    Rs. {item.price}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         ))}
