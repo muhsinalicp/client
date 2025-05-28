@@ -8,6 +8,7 @@ const ProductDetails = ({ data }) => {
     "beige",
     "ivory",
     "mintcream",
+    "cornsilk",
     "whitesmoke",
   ];
 
